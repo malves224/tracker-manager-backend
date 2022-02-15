@@ -26,6 +26,18 @@ module.exports = {
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
+      },
+      create: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN,
+      },
+      delete: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN,
+      },
+      edit: {
+        allowNull: true,
+        type: Sequelize.BOOLEAN,
       }
     })
   },

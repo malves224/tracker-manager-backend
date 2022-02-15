@@ -1,20 +1,25 @@
 module.exports = (sequelize, DataTypes) => {
   const AcessPermission = sequelize.define('AcessPermission',
-    { idPerfil: DataTypes.INTEGER, idPage: DataTypes.INTEGER },
+    { id_perfil: DataTypes.INTEGER, 
+      id_page: DataTypes.INTEGER,
+      edit: DataTypes.BOOLEAN,
+      delete: DataTypes.BOOLEAN,
+      create: DataTypes.BOOLEAN,
+    },
     { timestamps: false });
 
   AcessPermission.associate = (models) => {
     models.Page.belongsToMany(models.AcessProfile, {
       through: AcessPermission,
-      foreignKey: 'idPerfil',
+      foreignKey: 'id_page',
       as: 'profiles',
-      otherKey: 'idPage',
+      otherKey: 'id_perfil',
     });
     models.AcessProfile.belongsToMany(models.Page, {
       through: AcessPermission,
-      foreignKey: 'idPage',
+      foreignKey: 'id_perfil',
       as: 'pages',
-      otherKey: 'idPerfil',
+      otherKey: 'id_page',
     });
   };
 
