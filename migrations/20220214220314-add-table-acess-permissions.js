@@ -2,14 +2,14 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Acess_permissions', {
+    await queryInterface.createTable('AcessPermissions', {
       idPerfil: {
         allowNull: false,
         primaryKey: true,
         type: Sequelize.INTEGER,
         field: 'id_perfil',
         references: {
-          model: 'Acess_profiles',
+          model: 'AcessProfiles',
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -31,6 +31,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Acess_permissions');
+    await queryInterface.dropTable('AcessPermissions');
   }
 };

@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: "id_menu",
         references: {
-          model: "Menu_items",
+          model: "MenuItems",
           key: "id"
         },
         onUpdate: 'CASCADE',
@@ -24,8 +24,8 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      route : {
-        allowNull: true,
+      route: {
+        allowNull: false,
         type: Sequelize.STRING,
       },
       createdAt: {

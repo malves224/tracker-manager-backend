@@ -1,5 +1,6 @@
 /tests
 **/migrations/
 **/seeders/
+**/models/
 **/models/index.js
 **/config/

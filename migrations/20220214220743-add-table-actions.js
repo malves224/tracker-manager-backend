@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idPage: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         field: "id_page",
         references: {
@@ -21,23 +21,23 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       entity: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.STRING,
       },
       get: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       },
       create: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       },
       delete: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       },
       edit: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.BOOLEAN,
       }
     })

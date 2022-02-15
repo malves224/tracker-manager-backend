@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: "id_perfil",
         references: {
-          model: "Acess_profiles",
+          model: "AcessProfiles",
           key: "id"
         },
         onUpdate: 'CASCADE',
@@ -24,6 +24,14 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING,
         field: "full_name"
+      },
+      cargo: {
+        allowNull: false,
+        type: Sequelize.STRING,
+      },
+      contato: {
+        allowNull: false,
+        type: Sequelize.STRING,
       },
       login: {
         allowNull: false,
