@@ -3,12 +3,5 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
   });
 
-
-   AcessProfile.associate = (models) => {
-    AcessProfile.hasMany(models.User, {
-      foreignKey: 'id_perfil', as: 'users',
-    })
-   }
-
   return AcessProfile;
 };
