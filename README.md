@@ -3,10 +3,10 @@
 ## 1º Requisito rota `POST`  '/Login'
 O endpoint login recebe o usuário e senha caso o usuário existe e a senha esteja correta o endpoint deverá retornara o TOKEN gerado pelo JWT, Corpo da requisição esperado:
 
-```
+```json
 {
-	"login": "fulano@email.com",
-	"password:" "123456789",
+"login": "fulano@email.com",
+"password:" "123456789",
 }
 ```
 Verificações necessárias:
