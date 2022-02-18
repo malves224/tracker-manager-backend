@@ -9,8 +9,8 @@ module.exports = {
         full_name: "matheus alves",
         login: "matheus@clewsat.com.br",
         password: "123456789", // gerar hash
-        cargo: "diretor",
-        contato: "11947406555",
+        occupation: "diretor",
+        contact: "11947406555",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -20,8 +20,8 @@ module.exports = {
         full_name: "ana carol",
         login: "ana@clewsat.com.br",
         password: "123456789", // gerar hash
-        cargo: "diretor",
-        contato: "11947406555",
+        occupation: "diretor",
+        contact: "11947406555",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
@@ -31,8 +31,8 @@ module.exports = {
         full_name: "ana carol",
         login: "anaC@clewsat.com.br",
         password: "123456789", // gerar hash
-        cargo: "vendedora",
-        contato: "11947406555",
+        occupation: "vendedora",
+        contact: "11947406555",
         createdAt: new Date(),
         updatedAt: new Date(),
       },

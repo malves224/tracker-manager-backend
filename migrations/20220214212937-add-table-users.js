@@ -25,11 +25,11 @@ module.exports = {
         type: Sequelize.STRING,
         field: "full_name"
       },
-      cargo: {
+      occupation: {
         allowNull: false,
         type: Sequelize.STRING,
       },
-      contato: {
+      contact: {
         allowNull: false,
         type: Sequelize.STRING,
       },

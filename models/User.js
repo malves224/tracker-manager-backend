@@ -1,10 +1,13 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
-    id_perfil: DataTypes.INTEGER,
-    full_name: DataTypes.STRING,
+    idPerfil: DataTypes.INTEGER,
+    fullName: DataTypes.STRING,
     login: DataTypes.STRING,
     password: DataTypes.STRING,
-  });
+    occupation: DataTypes.STRING,
+    contact: DataTypes.STRING,
+  },
+  {underscored: true });
 
    User.associate = (models) => {
     User.belongsTo(models.AcessProfile, {
