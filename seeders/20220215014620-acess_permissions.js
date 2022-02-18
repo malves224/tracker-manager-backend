@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkInsert('AcessPermissions',
+    await queryInterface.bulkInsert('acess_permissions',
       [
       {
         id_perfil: 1,
@@ -27,6 +27,6 @@ module.exports = {
   },
 
   down: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkDelete('AcessPermissions', null, {});
+    await queryInterface.bulkDelete('acess_permissions', null, {});
   },
 };

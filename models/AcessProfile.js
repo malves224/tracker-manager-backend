@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const AcessProfile = sequelize.define('Acess_profile', {
+  const AcessProfile = sequelize.define('acess_profile', {
     name: DataTypes.STRING,
   });
 

@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const AcessPermission = sequelize.define('Acess_permission',
+  const AcessPermission = sequelize.define('acess_permission',
     { idPerfil: DataTypes.INTEGER, 
       idPage: DataTypes.INTEGER,
       edit: DataTypes.BOOLEAN,
@@ -9,13 +9,13 @@ module.exports = (sequelize, DataTypes) => {
     { timestamps: false, underscored: true });
 
   AcessPermission.associate = (models) => {
-    models.Page.belongsToMany(models.Acess_profile, {
+    models.page.belongsToMany(models.acess_profile, {
       through: AcessPermission,
       foreignKey: 'id_page',
       as: 'profiles',
       otherKey: 'id_perfil',
     });
-    models.AcessProfile.belongsToMany(models.Page, {
+    models.acess_profile.belongsToMany(models.page, {
       through: AcessPermission,
       foreignKey: 'id_perfil',
       as: 'pages',

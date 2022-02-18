@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Users', {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -14,7 +14,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         field: "id_perfil",
         references: {
-          model: "Acess_profiles",
+          model: "acess_profiles",
           key: "id"
         },
         onUpdate: 'CASCADE',
@@ -45,14 +45,16 @@ module.exports = {
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        field: 'created_at'
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
+        field: 'updated_at'
       }
     })
   },
 
   down: async (queryInterface, Sequelize) => {
-    queryInterface.dropTable('Users');
+    queryInterface.dropTable('users');
   }};

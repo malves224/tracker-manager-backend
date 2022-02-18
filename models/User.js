@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('user', {
     idPerfil: DataTypes.INTEGER,
     fullName: DataTypes.STRING,
     login: DataTypes.STRING,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   {underscored: true });
 
    User.associate = (models) => {
-    User.belongsTo(models.Acess_profile, {
+    User.belongsTo(models.acess_profile, {
       foreignKey: 'id_perfil', as: 'profile'
     })
    }

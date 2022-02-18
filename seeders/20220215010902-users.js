@@ -2,7 +2,7 @@
 
 module.exports = {
   up: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkInsert('Users',
+    await queryInterface.bulkInsert('users',
       [{
         id: 1,
         id_perfil: 1,
@@ -11,8 +11,8 @@ module.exports = {
         password: "123456789", // gerar hash
         occupation: "diretor",
         contact: "11947406555",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: 2,
@@ -22,8 +22,8 @@ module.exports = {
         password: "123456789", // gerar hash
         occupation: "diretor",
         contact: "11947406555",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: 3,
@@ -33,13 +33,13 @@ module.exports = {
         password: "123456789", // gerar hash
         occupation: "vendedora",
         contact: "11947406555",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
-      ]);
+      ], );
   },
 
   down: async (queryInterface, _Sequelize) => {
-    await queryInterface.bulkDelete('Users', null, {});
+    await queryInterface.bulkDelete('users', null, {});
   },
 };

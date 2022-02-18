@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const Action = sequelize.define('Action', {
+  const Action = sequelize.define('action', {
     idPage: DataTypes.STRING,
     entity: DataTypes.STRING,
     get: DataTypes.BOOLEAN,
@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Action.associate = (models) => {
-    Action.hasOne(models.Page, {
+    Action.hasOne(models.page, {
       foreignKey: 'idPage', as: 'action'
     });
   };
