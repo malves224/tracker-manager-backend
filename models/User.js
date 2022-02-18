@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
   {underscored: true });
 
    User.associate = (models) => {
-    User.belongsTo(models.AcessProfile, {
+    User.belongsTo(models.Acess_profile, {
       foreignKey: 'id_perfil', as: 'profile'
     })
    }

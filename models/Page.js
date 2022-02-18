@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Page.associate = (models) => {
-    Page.belongsTo(models.MenuItem, {
+    Page.belongsTo(models.Menu_item, {
       foreignKey: 'id_menu'
     });
   }
