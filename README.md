@@ -138,19 +138,19 @@ O endpoint cria um perfil de acesso ao sistema para ser vinculado ao um usuário
  {
    "name": "admin",
    "pages": [
-	 {
-	   "id_page": 1,
-	   "edit": true,
-	   "delete": true,
-	   "create": true
-	 },
-	 {
-	   "id_page": 2, // assim o usuario terá somente permissão de acesso.
- 	   "edit": false,
- 	   "delete": false,
- 	   "create": false
-	 }
-    ] 
+    {
+      "idPage": 1,
+      "edit": true,
+      "delete": true,
+      "create": true
+    },
+    {
+      "idPage": 2, // assim o usuario terá somente permissão de acesso.
+      "edit": false,
+      "delete": false,
+      "create": false
+    }
+  ] 
  }
 ~~~
 Obs: Para conceder apenas permissão de acesso, basta adicionar uma page á um perfil sem as chaves edit, delete, create ou com valores `false`.
@@ -181,18 +181,18 @@ Algumas verificações:
 	  "name": "admin",
 	  "pages": [
 		  {
-		    "id_page": 1,
-			"edit": true,
-			"delete": true,
-			"create": true
+        "idPage": 1,
+        "edit": true,
+        "delete": true,
+        "create": true
 		  },
 		  {
-			"id_page": 2,
-			"edit": false,
-			"delete": false,
-			"create": false
+        "idPage": 2,
+        "edit": false,
+        "delete": false,
+        "create": false
 		  }
-	    ] 
+    ] 
 	}
 	```
 	Observação: Os campos edit, delete, create não são obrigatórios mas se for omitido a permissão das ações não sera concedida, ficando o perfil de acesso apenas com permissão de acesso.
@@ -222,12 +222,12 @@ Algumas verificações:
 	```json
 	[
 	  {
-	    "id": 1,
-		"name": "admin"
+      "id": 1,
+      "name": "admin"
 	  },
 	  {
-	    "id": 2,
-		"name": "cobrança"
+      "id": 2,
+      "name": "cobrança"
 	  }
 	]
 	```
@@ -240,19 +240,19 @@ Formato do corpo da requisição.
 {
   "name": "admin",
   "pages": [
-	{
-		"id_page": 1,
-		"edit": true,
-		"delete": true,
-		"create": true
-	},
-	{
-		"id_page": 2,
-		"edit": false,
-		"delete": false,
-		"create": false
-	}
-   ] 
+    {
+      "idPage": 1,
+      "edit": true,
+      "delete": true,
+      "create": true
+    },
+    {
+      "idPage": 2,
+      "edit": false,
+      "delete": false,
+      "create": false
+    }
+  ] 
 }
 ~~~
 Algumas verificações:
@@ -296,22 +296,22 @@ Algumas verificações:
 
     ~~~json
     {
-      "id": 1
+      "id": 1,
       "name": "admin",
       "pages": [
-    	 {
-    	    "id_page": 1,
-    		"edit": true,
-    		"delete": true,
-    		"create": true
-    	 },
-    	 {
-    		"id_page": 2,
-    		"edit": false,
-    		"delete": false,
-    		"create": false
-    	}
-       ] 
+        {
+          "idPage": 1,
+          "edit": true,
+          "delete": true,
+          "create": true
+        },
+        {
+          "idPage": 2,
+          "edit": false,
+          "delete": false,
+          "create": false
+        }
+      ] 
     }
     ~~~
 
@@ -387,22 +387,22 @@ O endpoint retorna um perfil de acesso de acordo com o id da rota, é preciso pa
 
     ~~~json
     {
-      "id": 1
+      "id": 1,
       "name": "admin",
       "pages": [
-    	 {
-    	    "id_page": 1,
-    		"edit": true,
-    		"delete": true,
-    		"create": true
-    	 },
-    	 {
-    		"id_page": 2,
-    		"edit": false,
-    		"delete": false,
-    		"create": false
-    	}
-       ] 
+        {
+          "idPage": 1,
+          "edit": true,
+          "delete": true,
+          "create": true
+        },
+        {
+          "idPage": 2,
+          "edit": false,
+          "delete": false,
+          "create": false
+        }
+      ] 
     }
     ~~~
 
@@ -411,10 +411,10 @@ O endpoint será capaz de criar um novo usuário para o sistema, é preciso pass
 Formato esperado no corpo da requisição: 
 ```json
 {
-  "nome": "MATHEUS ALVES DE OLIVEIRA",
-  "cargo": "administrador",
+  "fullName": "MATHEUS ALVES DE OLIVEIRA",
+  "occupation": "administrador",
   "email": "malves224@clewsat.com",
-  "contato": "1195424244",
+  "contact": "1195424244",
   "password": "123456789",
   "idPerfil": 1
 }
@@ -643,17 +643,17 @@ Algumas verificações:
   {
 	"id": 1,
 	"nome": "MATHEUS ALVES DE OLIVEIRA",
-	"cargo": "administrador",
+	"ouccupation": "administrador",
 	"email": "malves224@clewsat.com",
-	"contato": "1195424244",
+	"contact": "1195424244",
 	"idPerfil": 1
   },
   {
 	"id": 2,
 	"nome": "ANA carol",
-	"cargo": "op. de cobrança",
+	"ouccupation": "op. de cobrança",
 	"email": "ana@clewsat.com",
-	"contato": "1195424244",
+	"contact": "1195424244",
 	"idPerfil": 2
   },	
 ]
@@ -693,9 +693,9 @@ Algumas verificações:
 {
   "id": 1,
   "nome": "MATHEUS ALVES DE OLIVEIRA",
-  "cargo": "administrador",
+  "occupation": "administrador",
   "email": "malves224@clewsat.com",
-  "contato": "1195424244",
+  "contact": "1195424244",
   "idPerfil": 1
 }
 ```
