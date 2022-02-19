@@ -127,7 +127,7 @@ O endpoint retorna todas as paginas do sistema e suas ações vinculado a uma en
 			"delete": true
 		  },
 		]
-	  }
+	    }
 	]
 	```
 
@@ -150,7 +150,7 @@ O endpoint cria um perfil de acesso ao sistema para ser vinculado ao um usuário
       "delete": false,
       "create": false
     }
-  ] 
+   ] 
  }
 ~~~
 Obs: Para conceder apenas permissão de acesso, basta adicionar uma page á um perfil sem as chaves edit, delete, create ou com valores `false`.
