@@ -10,7 +10,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       idMenu: {
-        allowNull: false,
+        allowNull: true,
         type: Sequelize.INTEGER,
         field: "id_menu",
         references: {
