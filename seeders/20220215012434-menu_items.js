@@ -5,17 +5,41 @@ module.exports = {
     await queryInterface.bulkInsert('menu_items',
       [{
         id: 1,
-        name: "Clientes",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        name: "Pagina inicial",
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: 2,
-        name: "Pagina inicial",
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        name: "Clientes",
+        created_at: new Date(),
+        updated_at: new Date(),
       },
-      ]);
+      {
+        id: 3,
+        name: "Veiculos",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 4,
+        name: "Agendamentos",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 5,
+        name: "Administração",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {       
+        id: 6, 
+        name: "Estoque",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },      
+    ]);
   },
 
   down: async (queryInterface, _Sequelize) => {

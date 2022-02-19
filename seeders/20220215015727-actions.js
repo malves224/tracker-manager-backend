@@ -6,18 +6,21 @@ module.exports = {
       [
       {
         id: 1,
-        id_page: 1,
-        entity: "Client",
-        get: true,
+        id_page: 2,
+        entity: "client",
+        get: false,
         create: true,
-        delete: true,
-        edit: true,
+        delete: false,
+        edit: false,
       },
       {
         id: 2,
         id_page: 2,
-        entity: "home",
+        entity: "client",
         get: true,
+        create: false,
+        delete: false,
+        edit: false,
       },
       {
         id: 3,
