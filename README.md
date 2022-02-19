@@ -687,7 +687,7 @@ Algumas verificações:
     ```json
     { "message": "Usuario não existe." }
     ```
-    
+
    - Caso der tudo certo retorne status 200, com o seguinte formato no corpo da response: 
 ```json
 {
@@ -699,3 +699,41 @@ Algumas verificações:
   "idPerfil": 1
 }
 ```
+
+## 15º Requisito `DELETE` /User/:id
+
+O endpoint é capaz de excluir um usuario baseado no id que esta na rota, é preciso passar o token do usuarios no headers da requisição.
+
+Algumas verificações:
+
+-   Caso o token não seja passado nos headers:  
+    Retorne o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Token nao encontrado" }
+    ```
+    
+-   Caso o token esteja invalido ou expirado retorna retorne o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Token invalido ou expirado" }
+    ```
+    
+-   Caso o usuário não tenha permissão de acesso correta retorna o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Usuario não autorizado." }
+    ```
+  - Caso o id do Usuario da rota nao exista retorna o status 400, com esse formato no corpo da response: 
+  
+    ```json
+    { "message": "Usuario não existe." }
+    ```
+  
+  - Caso o usuario que está para excluir seja o unico 'admin' do sistema retorne o status 403, com esse formato no corpo da response: 
+
+  ~~~json
+  { "message":"Não é possivel excluir o unico administrador do sitema." }
+  ~~~
+  
+  - Caso der tudo certo retorna o status 204, sem retorno no corpo da response.
