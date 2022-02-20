@@ -8,7 +8,7 @@ module.exports = {
         id_menu: 1,
         name: "Pagina inicial",
         route: "Home",
-        createdAt: new Date('2022-02-19 23:17:31'),
+        createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
@@ -37,6 +37,14 @@ module.exports = {
       },
       {
         id: 5,
+        id_menu: 3,
+        name: "Listar veiculos",
+        route: "ListVehicles",
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: 6,
         id_menu: 4,
         name: "Novo Agendamento",
         route: "NewAgendamento",
@@ -44,7 +52,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 6,
+        id: 7,
         id_menu: 4,
         name: "Listar Agendamentos",
         route: "ListAgendamentos",
@@ -52,7 +60,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 7,
+        id: 8,
         id_menu: 5,
         name: "Usuarios",
         route: "UsersControl",
@@ -60,7 +68,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 8,
+        id: 9,
         id_menu: 5,
         name: "Financeiro",
         route: "Financeiro",
@@ -68,7 +76,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 9,
+        id: 10,
         id_menu: 6,
         name: "Estoque",
         route: "Estoque",
@@ -76,20 +84,20 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 10,
+        id: 11,
         name: "Informações do usuario",
         route: "UserInfo",
         createdAt: new Date(),
         updatedAt: new Date(),
       },
       {
-        id: 11,
+        id: 12,
         name: "Cadastro de usuario",
         route: "NewUser",
         createdAt: new Date(),
         updatedAt: new Date(),
-      }
-      ]);
+      },
+    ]);
   },
 
   down: async (queryInterface, _Sequelize) => {
