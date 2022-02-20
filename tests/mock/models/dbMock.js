@@ -1,5 +1,4 @@
-const Users = 
-[
+const Users = [
   {
   id: 1,
   id_perfil: 1,

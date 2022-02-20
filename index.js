@@ -13,3 +13,5 @@ app.get('/', (req, res) => res.send());
 app.post('/Login', User.login);
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
+
+module.exports = app;

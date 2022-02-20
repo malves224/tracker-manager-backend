@@ -40,11 +40,11 @@ function generateToken(data) {
 const authenticateUser = async ({ login, password }) => {
   const userData = await user.findOne({ where: { login } });
   if (!userData) {
-    return { message: 'Usuario não cadastrado' };
+    return { message: 'Usuario não cadastrado.' };
   }
   const passwordIsCorrect = await checkPasswordHash(password, userData.password);
   if (!passwordIsCorrect) {
-    return { message: 'Senha invalida.' };
+    return { message: 'Senha inválida.' };
   }
   return userData;
 };
