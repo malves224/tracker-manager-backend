@@ -23,7 +23,7 @@ describe('Rota /Login', () => {
 
   describe('Quando os campos obrigatório não é passado ', () => {
     it(`Sem o campo "login" - Retorna o status 400, com a mensagem 
-      ""Login" é obrigatório"`, async () => {
+      '"Login" é obrigatório'`, async () => {
         const loginResponse = await chai.request(server)
           .post("/Login")
           .send({
@@ -35,7 +35,7 @@ describe('Rota /Login', () => {
       });
 
       it(`Sem o campo "password" - Retorna o status 400, com a mensagem 
-      '"Senha" é obrigatório"`, async () => {
+      '"Senha" é obrigatório'`, async () => {
         const loginResponse = await chai.request(server)
           .post("/Login")
           .send({
@@ -62,7 +62,7 @@ describe('Rota /Login', () => {
     });
 
       it(`Caso a senha seja inválida, retorna status 401, com a mensagem
-        'Senha inválida.'`, async () => {
+        "Senha inválida."`, async () => {
           const loginResponse = await chai.request(server)
           .post("/Login")
           .send({
