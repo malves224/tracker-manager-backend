@@ -66,6 +66,24 @@ module.exports = {
       },
       {
         id_perfil: 2,
+        id_page: 1,
+      },
+      {
+        id_perfil: 2,
+        id_page: 2,
+        create: true,
+      },
+      {
+        id_perfil: 2,
+        id_page: 3,
+      },
+      {
+        id_perfil: 2,
+        id_page: 4,
+        create: true,
+      },
+      {
+        id_perfil: 2,
         id_page: 11,
         edit: false,
         delete: false,
