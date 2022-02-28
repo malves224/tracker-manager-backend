@@ -8,7 +8,7 @@
     "start": "node index.js",
     "drop": "npx sequelize-cli db:drop ",
     "seed": "npx sequelize-cli db:seed:all ",
-    "debug": "nodemon index.js",
+    "debug": "nodemon --ignore tests/ --delay 500ms index.js",
     "test": "mocha ./tests/integration/*$NAME*.spec.js --exit",
     "test:coverage": "nyc npm run test",
     "seed:clear": "npx sequelize-cli db:seed:undo:all"
