@@ -4,11 +4,11 @@ const checkPermision = (routeForCheck, pagesAllowed) => pagesAllowed
 const checkIfExistMenuNav = (MenuNav, id) => MenuNav
   .some((item) => item.id === id);
 
-const getItemsNavAllowed = (permissions, itemsNav) => {
+const getItemsNavAllowed = (pagesAllowed, allItemsWithPages) => {
   const ItemsWithPagesAllowed = [];
-  itemsNav.forEach(({ pages, id, name: nameMenu }, index) => {
+  allItemsWithPages.forEach(({ pages, id, name: nameMenu }, index) => {
     pages.forEach(({ name, route }) => {
-      if (checkPermision(route, permissions)) {
+      if (checkPermision(route, pagesAllowed)) {
         if (!checkIfExistMenuNav(ItemsWithPagesAllowed, id)) {
           const newItemMenuAllowed = { id, name: nameMenu, pages: [{ name, route }] };
           ItemsWithPagesAllowed.push(newItemMenuAllowed);

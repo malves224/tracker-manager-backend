@@ -14,7 +14,7 @@ const getAllPagesPermissionsByPerfil = async (idPerfil) => AcessPermission.findA
     },
   });
 
-const getAllItemMenuWithPages = async (idPerfil) => {
+const getAllItemMenuWithPagesAllowed = async (idPerfil) => {
   try {
     const allItemsMenuWithPages = await getAllItemsMenuWithPages();
     const allPermissionsPageByPerfil = await getAllPagesPermissionsByPerfil(idPerfil);
@@ -22,10 +22,12 @@ const getAllItemMenuWithPages = async (idPerfil) => {
       .getItemsNavAllowed(allPermissionsPageByPerfil, allItemsMenuWithPages);
       return itemsMenuWithPageAllowed;
   } catch (error) {
-    return { code: 500, message: 'Erro inesperado' };
+    console.log(error.message);
   }
 };
 
 module.exports = {
-  getAllItemMenuWithPages,
+  getAllItemMenuWithPagesAllowed,
+  getAllItemsMenuWithPages,
+  getAllPagesPermissionsByPerfil,
 };
