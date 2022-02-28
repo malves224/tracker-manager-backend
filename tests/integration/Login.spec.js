@@ -3,7 +3,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const server = require('../../index');
-const {Users: fakeUserDB} = require('../mock/models/dbMock');
+const fakeUserDB = require('../mock/db/users.json');
 const { user: UserModelOrigin } = require('../../models');
 
 const { User: UserModelFake } = require('../mock/models/user');
@@ -11,8 +11,7 @@ const { User: UserModelFake } = require('../mock/models/user');
 chai.use(chaiHttp);
 
 describe('Rota /Login', () => {
-  let tokenUser
-
+  
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne)
   });

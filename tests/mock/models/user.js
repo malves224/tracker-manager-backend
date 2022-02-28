@@ -1,4 +1,4 @@
-const { Users: UserTable } = require('./dbMock');
+const  UserTable  = require('../db/users.json');
 
 const mockFindOne = ({where}) => {
   const columnToFind = Object.keys(where);

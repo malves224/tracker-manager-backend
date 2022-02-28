@@ -1,0 +1,130 @@
+[
+  {
+      "id": 1,
+      "name": "Pagina inicial",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 1,
+              "name": "Pagina inicial",
+              "route": "Home",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 1
+          }
+      ]
+  },
+  {
+      "id": 2,
+      "name": "Clientes",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 2,
+              "name": "Novo cliente",
+              "route": "NewClient",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 2
+          },
+          {
+              "idMenu": 2,
+              "name": "Clientes",
+              "route": "ListClients",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 2
+          }
+      ]
+  },
+  {
+      "id": 3,
+      "name": "Veiculos",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 3,
+              "name": "Novo veiculo",
+              "route": "NewVehicle",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 3
+          },
+          {
+              "idMenu": 3,
+              "name": "Listar veiculos",
+              "route": "ListVehicles",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 3
+          }
+      ]
+  },
+  {
+      "id": 4,
+      "name": "Agendamentos",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 4,
+              "name": "Novo Agendamento",
+              "route": "NewAgendamento",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 4
+          },
+          {
+              "idMenu": 4,
+              "name": "Listar Agendamentos",
+              "route": "ListAgendamentos",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 4
+          }
+      ]
+  },
+  {
+      "id": 5,
+      "name": "Administração",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 5,
+              "name": "Usuarios",
+              "route": "UsersControl",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 5
+          },
+          {
+              "idMenu": 5,
+              "name": "Financeiro",
+              "route": "Financeiro",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 5
+          }
+      ]
+  },
+  {
+      "id": 6,
+      "name": "Estoque",
+      "createdAt": "2022-02-21T02:50:28.000Z",
+      "updatedAt": "2022-02-21T02:50:28.000Z",
+      "pages": [
+          {
+              "idMenu": 6,
+              "name": "Estoque",
+              "route": "Estoque",
+              "createdAt": "2022-02-21T02:50:28.000Z",
+              "updatedAt": "2022-02-21T02:50:28.000Z",
+              "id_menu": 6
+          }
+      ]
+  }
+]
