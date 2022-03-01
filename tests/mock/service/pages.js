@@ -20,9 +20,21 @@ const getAllPagesPermissionsByPerfilFake = async ({where}) => {
    }
   });
   return Promise.resolve(pagesAllowed);
+};
+
+const getPagesAllowedByPerfilFake = async (idPerfil) => {
+  let pagesAllowed = [];
+  const permissionFromIdPerfil = acessPermission
+    .filter((perm) => perm["id_perfil"] === idPerfil);
+    permissionFromIdPerfil.forEach((permission) => {
+    const {id, name, route} = pages.find((page) => page.id === permission["id_page"]);
+    pagesAllowed = [...pagesAllowed, {id, name, route}];
+  });
+  return Promise.resolve(pagesAllowed);
 }
 
 module.exports = {
   getAllItemsMenuWithPagesFake,
-  getAllPagesPermissionsByPerfilFake
+  getAllPagesPermissionsByPerfilFake,
+  getPagesAllowedByPerfilFake
 }
