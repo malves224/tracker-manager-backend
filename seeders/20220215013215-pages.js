@@ -97,6 +97,21 @@ module.exports = {
         created_at: new Date(),
         updated_at: new Date(),
       },
+      {
+        id: 13,
+        name: "Criar Perfil",
+        route: "NewPerfil",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+      {
+        id: 14,
+        name: "Informações do perfil",
+        route: "ProfileInfo",
+        created_at: new Date(),
+        updated_at: new Date(),
+      },
+
     ]);
   },
 
