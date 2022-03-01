@@ -93,6 +93,11 @@ module.exports = {
         id_page: 12,
         create: true,
       },
+      {
+        id_perfil: 1,
+        id_page: 13,
+        create: true,
+      },
     ]);
   },
 
