@@ -2,6 +2,7 @@ const menuWithPages = require('../db/AllItemsWithPages.json');
 const acessPermission = require('../db/AcessPermission.json');
 const pages = require('../db/page.json');
 const actions = require('../db/actions.json');
+const { QUERY_ACTIONS, QUERY_PAGES } = require('../../../service/Pages');
 
 const getAllItemsMenuWithPagesFake = async () => {
   return Promise.resolve(menuWithPages)
@@ -34,7 +35,7 @@ const getPagesAllowedByPerfilFake = async (idPerfil) => {
   return Promise.resolve(pagesAllowed);
 }
 
-const sequelizeQueryFake = async (_query, options) => {
+const searchQueryPages = async (options) => {
   const { replacements } = options;
   let pagesAllowed = [];
   const permissionFromIdPerfil = acessPermission
@@ -44,6 +45,38 @@ const sequelizeQueryFake = async (_query, options) => {
     pagesAllowed = [...pagesAllowed, {id, name, route}];
   });
   return Promise.resolve(pagesAllowed);
+}
+
+const searchQueryActions = async (options) => {
+  const { replacements } = options;
+  let outputActionsWithPage = [];
+  const actionsFiltredByEntity = actions.filter((action) => action.entity === replacements.entity);
+  actionsFiltredByEntity
+    .forEach(({id, idPage, entity, get, create, delete: deleteAction, edit}) => {
+    const {route} = pages.find((page) => page.id === idPage);
+    const rowForAdd = {
+      idAction: id,
+      idPage,
+      route,
+      entity,
+      get,
+      create,
+      delete: deleteAction,
+      edit,
+    }
+    outputActionsWithPage = [...outputActionsWithPage, rowForAdd]
+  });
+  return Promise.resolve(outputActionsWithPage);
+}
+
+const sequelizeQueryFake = async (query, options) => {
+  if (query === QUERY_ACTIONS) {
+    const actions = await searchQueryActions(options);
+    return actions;
+  } else if (query === QUERY_PAGES) {
+    const pages = await searchQueryPages(options);
+    return pages;
+  }
 }
 
 const getAllPageWithActionsFake = async () => {
