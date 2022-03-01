@@ -9,6 +9,9 @@ module.exports = (sequelize, DataTypes) => {
     Page.belongsTo(models.menu_item, {
       foreignKey: 'id_menu', as: 'menuItems'
     });
+    Page.hasMany(models.action, {
+      foreignKey:'id_page', as: 'actions',
+    })
     models.acess_permission .belongsTo(Page, {
       through: models.acess_permission,
       foreignKey: 'id_page', as: 'page',

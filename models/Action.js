@@ -7,12 +7,13 @@ module.exports = (sequelize, DataTypes) => {
     delete: DataTypes.BOOLEAN,
     edit: DataTypes.BOOLEAN,
   }, {
-    timestamps: false
+    timestamps: false,
+    underscored: true 
   });
 
   Action.associate = (models) => {
-    Action.hasOne(models.page, {
-      foreignKey: 'idPage', as: 'action'
+    Action.belongsTo(models.page, {
+      foreignKey: 'id_page', as: 'page'
     });
   };
 
