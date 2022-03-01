@@ -19,7 +19,7 @@ app.get('/MenuItems', MenuItems.getMenuItems);
 
 app.get('/UserPages', Pages.getPagesAllowed);
 
-app.get('/pages');
+app.get('/Pages', Pages.getAllPages);
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
