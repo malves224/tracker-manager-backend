@@ -17,6 +17,8 @@ app.use(validateToken);
 
 app.get('/MenuItems', MenuItems.getMenuItems);
 
+app.get('/UserPages', MenuItems.getPagesAllowed);
+
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
 module.exports = app;
