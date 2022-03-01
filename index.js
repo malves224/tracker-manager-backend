@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const validateToken = require('./auth/validateToken');
-const { User, MenuItems } = require('./controllers');
+const { User, MenuItems, Pages } = require('./controllers');
 
 const port = process.env.PORT || 3001;
 const app = express();
@@ -17,7 +17,9 @@ app.use(validateToken);
 
 app.get('/MenuItems', MenuItems.getMenuItems);
 
-app.get('/UserPages', MenuItems.getPagesAllowed);
+app.get('/UserPages', Pages.getPagesAllowed);
+
+app.get('/pages');
 
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 

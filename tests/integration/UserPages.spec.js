@@ -7,7 +7,7 @@ const fakeUserDB = require('../mock/db/users.json');
 const { user: UserModelOrigin } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
 const { getPagesAllowedByPerfilFake } = require('../mock/service/pages');
-const { MenuItems } = require('../../service');
+const { Pages } = require('../../service');
 
 chai.use(chaiHttp);
 
@@ -46,7 +46,7 @@ describe('Rota /UserPages', () => {
   describe('Quando é passado um token valido', () => {
     before(() => {
       sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
-      sinon.stub(MenuItems, 'getPagesAllowedByPerfil')
+      sinon.stub(Pages, 'getPagesAllowedByPerfil')
         .callsFake(getPagesAllowedByPerfilFake)
     });
 
