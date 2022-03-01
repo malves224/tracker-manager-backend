@@ -1,4 +1,5 @@
 const { QueryTypes } = require('@sequelize/core');
+const { page, action } = require('../models');
 const { sequelize } = require('../models');
 
 const getPagesAllowedByPerfil = async (idPerfil) => {
@@ -16,6 +17,30 @@ const getPagesAllowedByPerfil = async (idPerfil) => {
   }
 };
 
+const allPageLoading = () => page.findAll({ 
+  attributes: ['id', 'name', 'route'],
+  include: { 
+    model: action, 
+    as: 'actions',
+    attributes: { exclude: ['id_page'] },
+   },
+});
+
+const getAllPages = async (idPerfil) => {
+  const pages = await getPagesAllowedByPerfil(idPerfil);
+  const perfilHasAcesso = pages.some((pageItem) => pageItem.route === 'UsersControl');
+  if (!perfilHasAcesso) {
+    return { message: 'Usuario não autorizado.' };
+  }
+  try {
+    const allPages = await allPageLoading();
+    return allPages;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   getPagesAllowedByPerfil,
+  getAllPages,
 };
