@@ -32,6 +32,7 @@
     "dotenv": "^16.0.0",
     "eslint-config-trybe-backend": "^1.0.4",
     "express": "^4.17.2",
+    "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.16.1",
