@@ -341,7 +341,6 @@ describe('Rota /Pages', () => {
       .set("Authorization", token);
 
       expect(response).to.have.status(200);
-      // caso crie novas paginas no mock do banco é preciso atualizar o expect
       expect(response.body).to.deep.equal(expectOutput);
     });
   });

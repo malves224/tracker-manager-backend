@@ -40,10 +40,6 @@ const create = async (idPerfilUser, newProfile) => {
   return profileToReturn;
 };
 
-// mocks: sequelize.query com a query atual, 
-// acessProfile.create que cria somente o perfil, 
-// acessPermissions.create que cria o vinculo de permisions de perfil em page.
-
 module.exports = { 
   create,
   QUERY_ACTIONS,
