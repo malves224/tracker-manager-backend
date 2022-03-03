@@ -142,7 +142,7 @@ module.exports = {
       {
         id: 16,
         id_page: 13, 
-        entity: "acess_profiles",
+        entity: "acess_permissions",
         get: false,
         create: true,
         delete: false,
@@ -150,6 +150,15 @@ module.exports = {
       },
       {
         id: 17,
+        id_page: 13, 
+        entity: "acess_profiles",
+        get: false,
+        create: true,
+        delete: false,
+        edit: false,
+      },
+      {
+        id: 18,
         id_page: 14, 
         entity: "acess_permissions",
         get: true,
@@ -157,7 +166,6 @@ module.exports = {
         delete: true,
         edit: true,
       },
-
     ]);
   },
 

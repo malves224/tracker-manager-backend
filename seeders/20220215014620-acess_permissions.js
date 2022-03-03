@@ -62,7 +62,6 @@ module.exports = {
       {
         id_perfil: 1,
         id_page: 12,
-        create: true,
       },
       {
         id_perfil: 2,
@@ -91,7 +90,12 @@ module.exports = {
       {
         id_perfil: 2,
         id_page: 12,
-        create: true,
+      },
+      {
+        id_perfil: 1,
+        id_page: 14,
+        edit: true,
+        delete: true,
       },
       {
         id_perfil: 1,
