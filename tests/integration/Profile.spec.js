@@ -4,8 +4,13 @@ const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const server = require('../../index');
 const fakeUserDB = require('../mock/db/users.json');
-const { user: UserModelOrigin } = require('../../models');
+const fakeProfileDB = require('../mock/db/profiles.json');
+const { user: UserModelOrigin, 
+  sequelize: sequelizeOrigin, 
+  acess_profile: AcessProfileOrigin,
+  acess_permission: AcessPermissionsOrigin } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
+const { sequelizeQueryFake, createProfileFake } = require('../mock/models/profile');
 
 chai.use(chaiHttp);
 
@@ -13,11 +18,17 @@ describe('Rota Post /Profile', () => {
 
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+    sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
+    sinon.stub(AcessProfileOrigin, 'create').callsFake(createProfileFake);
+    sinon.stub(AcessPermissionsOrigin, 'create').returns(Promise);
     // mock da relação com o banco de dados
   });
 
   after(() => {
     UserModelOrigin.findOne.restore();
+    sequelizeOrigin.query.restore();
+    AcessProfileOrigin.create.restore();
+    AcessPermissionsOrigin.create.restore();
   });
 
 
@@ -245,6 +256,11 @@ describe('Rota Post /Profile', () => {
           }
         ]
         }
+
+      const expectOutOut = {
+        id: fakeProfileDB[fakeProfileDB.length -1].id + 1,
+        ...perfilForCreate
+      }
       
       const { body: { token } } = await chai.request(server)
         .post("/Login")
@@ -258,14 +274,8 @@ describe('Rota Post /Profile', () => {
         .send(perfilForCreate)
         .set("Authorization", token);
 
-       expect(response).to.have.status(201);
-        
-        // mocks antes de efetuar o assertion final
-        // mocks: sequelize.query com a query atual, 
-        // acessProfile.create que cria somente o perfil, 
-        // acessPermissions.create que cria o vinculo de permisions de perfil em page.        
-        
-        // expect(response.body).to.be.deep.equals()
+      expect(response).to.have.status(201);        
+      expect(response.body).to.be.deep.equals(expectOutOut);
     });
   });
 });
