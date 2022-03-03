@@ -1,4 +1,4 @@
-/* eslint-disable camelcase */
+const { QueryTypes } = require('@sequelize/core');
 const { sequelize, acess_profile: 
     AcessProfile, acess_permission: AcessPermissions } = require('../models');
 
@@ -9,8 +9,9 @@ WHERE ap.id_perfil = :idPerfil AND ac.entity = :entity;`;
 
 const getActionPermissionByPerfil = async (idPerfil, entity) => {
   try {
-    const [actionsByPerfil] = await sequelize.query(QUERY_ACTIONS, {
+    const actionsByPerfil = await sequelize.query(QUERY_ACTIONS, {
       replacements: { idPerfil, entity },
+      type: QueryTypes.SELECT,
     });
     return actionsByPerfil;
   } catch (error) {
@@ -45,4 +46,5 @@ const create = async (idPerfilUser, newProfile) => {
 
 module.exports = { 
   create,
+  QUERY_ACTIONS,
 };
