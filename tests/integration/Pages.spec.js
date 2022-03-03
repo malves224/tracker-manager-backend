@@ -237,12 +237,21 @@ const expectOutput = [
             {
                 "id": 16,
                 "idPage": 13,
+                "entity": "acess_permissions",
+                "get": false,
+                "create": true,
+                "delete": false,
+                "edit": false
+            },
+            {
+                "id": 17,
+                "idPage": 13, 
                 "entity": "acess_profiles",
                 "get": false,
                 "create": true,
                 "delete": false,
                 "edit": false
-            }
+              }              
         ]
     },
     {
@@ -251,7 +260,7 @@ const expectOutput = [
         "route": "ProfileInfo",
         "actions": [
             {
-                "id": 17,
+                "id": 18,
                 "idPage": 14,
                 "entity": "acess_permissions",
                 "get": true,
@@ -332,6 +341,7 @@ describe('Rota /Pages', () => {
       .set("Authorization", token);
 
       expect(response).to.have.status(200);
+      // caso crie novas paginas no mock do banco é preciso atualizar o expect
       expect(response.body).to.deep.equal(expectOutput);
     });
   });
