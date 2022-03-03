@@ -11,6 +11,16 @@ chai.use(chaiHttp);
 
 describe('Rota Post /Profile', () => {
 
+  before(() => {
+    sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+    // mock da relação com o banco de dados
+  });
+
+  after(() => {
+    UserModelOrigin.findOne.restore();
+  });
+
+
   describe('Quando o token nao é passado na requisição', () => {
     it('retorna status 401 com a menssagem "Token não encontrado"',async () => {
       const response = await chai.request(server)
@@ -33,13 +43,6 @@ describe('Rota Post /Profile', () => {
   });
 
   describe('Ao passar um body na requisição com o formato incorreto',async () => {
-    before(() => {
-      sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
-    });
-
-    after(() => {
-      UserModelOrigin.findOne.restore();
-    });
 
     it(`Sem o campo name, retorna status 400 
           com a menssagem "Name is required"`, async () => {
@@ -190,5 +193,79 @@ describe('Rota Post /Profile', () => {
         expect(response).to.have.status(400);
         expect(response.body).to.have.property("message", "edit, create, delete must be a boolean");
     });
-  }); 
-})
+  });
+
+  describe('Ao tentar cria perfil sem permissão', () => {
+    it('Retorna status 401, com a menssagem "Usuario não autorizado."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+        });
+
+      const response = await chai.request(server)
+        .post("/Profile")
+        .send({
+          "name": "admin", 
+          "pages": [{
+            "idPage": 1,
+            "edit": true,
+            "delete": true,
+            "create": true
+          }]
+        })
+        .set("Authorization", token);
+
+         expect(response).to.have.status(401);
+         expect(response.body).to.have.property("message", "Usuario não autorizado.");
+    });
+  });
+
+  describe('Ao tentar cria perfil com permissão', () => {
+    it('Retorna status 201, com o perfil criado no corpo da response', async () => {
+      const perfilForCreate = {
+        "name": "admin", 
+        "pages": [
+          {
+          "idPage": 1,
+          },
+          {
+            "idPage": 2,
+            "create": true,
+          },
+          {
+            "idPage": 11,
+            "delete": true,
+            "edit": true,
+          },
+          {
+            "idPage": 12,
+            "create": true,
+          }
+        ]
+        }
+      
+      const { body: { token } } = await chai.request(server)
+        .post("/Login")
+        .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+        });
+      
+      const response = await chai.request(server)
+        .post("/Profile")
+        .send(perfilForCreate)
+        .set("Authorization", token);
+
+       expect(response).to.have.status(201);
+        
+        // mocks antes de efetuar o assertion final
+        // mocks: sequelize.query com a query atual, 
+        // acessProfile.create que cria somente o perfil, 
+        // acessPermissions.create que cria o vinculo de permisions de perfil em page.        
+        
+        // expect(response.body).to.be.deep.equals()
+    });
+  });
+});

@@ -56,8 +56,7 @@
   },
   {
     "id_perfil": 1,
-    "id_page": 12,
-    "create": true
+    "id_page": 12
   },
   {
     "id_perfil": 2,
@@ -85,8 +84,7 @@
   },
   {
     "id_perfil": 2,
-    "id_page": 12,
-    "create": true
+    "id_page": 12
   },
   {
     "id_perfil": 1,

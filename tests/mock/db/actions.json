@@ -136,7 +136,7 @@
 {
   "id": 16,
   "idPage": 13, 
-  "entity": "acess_profiles",
+  "entity": "acess_permissions",
   "get": false,
   "create": true,
   "delete": false,
@@ -144,7 +144,16 @@
 },
 {
   "id": 17,
-  "idPage": 14  , 
+  "idPage": 13, 
+  "entity": "acess_profiles",
+  "get": false,
+  "create": true,
+  "delete": false,
+  "edit": false
+},
+{
+  "id": 18,
+  "idPage": 14, 
   "entity": "acess_permissions",
   "get": true,
   "create": false,
