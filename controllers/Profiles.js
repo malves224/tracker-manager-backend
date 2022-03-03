@@ -11,9 +11,10 @@ const validateProfile = async (req, res, next) => {
 };
 
 const create = async (req, res) => { 
-  const response = await Profiles.create(req.body);
+  const { idPerfil } = req.userAuthenticated;
+  const response = await Profiles.create(idPerfil, req.body);
   if (response.message) {
-    res.status(200).json({ message: response.message });
+    res.status(401).json({ message: response.message });
   }
   res.status(201).json(response);
 };
