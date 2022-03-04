@@ -1,15 +1,17 @@
 const { QueryTypes } = require('@sequelize/core');
 const { sequelize, acess_profile: 
-    AcessProfile, acess_permission: AcessPermissions } = require('../models');
+    AcessProfile, acess_permission: 
+    AcessPermissions } = require('../models');
+const { verifyPermissionAction } = require('./util');
 
-const QUERY_ACTIONS = `SELECT ap.id_page, ac.entity, ap.create, ap.delete, ap.edit 
+const QUERY_ACTIONS_PERFIL = `SELECT ap.id_page, ac.entity, ap.create, ap.delete, ap.edit 
 FROM tracker_manager.acess_permissions AS ap
 INNER JOIN tracker_manager.actions AS ac ON ap.id_page = ac.id_page
 WHERE ap.id_perfil = :idPerfil AND ac.entity = :entity;`;
 
 const getActionPermissionByPerfil = async (idPerfil, entity) => {
   try {
-    const actionsByPerfil = await sequelize.query(QUERY_ACTIONS, {
+    const actionsByPerfil = await sequelize.query(QUERY_ACTIONS_PERFIL, {
       replacements: { idPerfil, entity },
       type: QueryTypes.SELECT,
     });
@@ -25,8 +27,7 @@ const createManyPermission = (idPerfil, pages) => pages
 
 const create = async (idPerfilUser, newProfile) => {
   const [entity, action] = ['acess_profiles', 'create']; // não ha nescidade de verificar de verificar a tabela acess_permission, ja que se trata de uma tabela N:N
-  const actionsByPerfil = await getActionPermissionByPerfil(idPerfilUser, entity);
-  const canCreate = actionsByPerfil.some((actionByPerfil) => actionByPerfil[action]);
+   const canCreate = await verifyPermissionAction(idPerfilUser, { entity, action });
   if (!canCreate) {
     return { message: 'Usuario não autorizado.' };
   }
@@ -42,5 +43,6 @@ const create = async (idPerfilUser, newProfile) => {
 
 module.exports = { 
   create,
-  QUERY_ACTIONS,
+  getActionPermissionByPerfil,
+  QUERY_ACTIONS_PERFIL,
 };
