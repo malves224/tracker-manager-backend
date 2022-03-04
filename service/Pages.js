@@ -8,9 +8,11 @@ const QUERY_ACTIONS = 'SELECT `ac`.`id` AS `idAction`, `id_page` AS `idPage`, `r
 + ' INNER JOIN tracker_manager.`pages` AS `pg` ON `pg`.`id` = `id_page`'
 + ' WHERE `entity` = :entity;';
 
-const QUERY_PAGES = `SELECT id, name, route FROM tracker_manager.acess_permissions
-INNER JOIN tracker_manager.pages as pg on id_page = pg.id
-WHERE id_perfil = :idPerfil;`;
+const QUERY_PAGES = `SELECT pg.id, ac.entity, name, route FROM 
+tracker_manager.acess_permissions as ap
+INNER JOIN tracker_manager.pages as pg on ap.id_page = pg.id
+INNER JOIN tracker_manager.actions as ac on pg.id = ac.id_page
+WHERE ap.id_perfil = :idPerfil;`;
 
 const getPagesAllowedByPerfil = async (idPerfil) => {
   try {
