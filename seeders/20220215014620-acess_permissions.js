@@ -82,16 +82,6 @@ module.exports = {
         create: true,
       },
       {
-        id_perfil: 2,
-        id_page: 11,
-        edit: false,
-        delete: false,
-      },
-      {
-        id_perfil: 2,
-        id_page: 12,
-      },
-      {
         id_perfil: 1,
         id_page: 14,
         edit: true,
