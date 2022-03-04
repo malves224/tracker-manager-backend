@@ -14,14 +14,13 @@ const { sequelizeQueryFake, createProfileFake } = require('../mock/models/profil
 
 chai.use(chaiHttp);
 
-describe('Rota Post /Profile', () => {
+describe('Rota POST /Profile', () => {
 
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
     sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
     sinon.stub(AcessProfileOrigin, 'create').callsFake(createProfileFake);
     sinon.stub(AcessPermissionsOrigin, 'create').returns(Promise);
-    // mock da relação com o banco de dados
   });
 
   after(() => {
@@ -35,7 +34,7 @@ describe('Rota Post /Profile', () => {
   describe('Quando o token nao é passado na requisição', () => {
     it('retorna status 401 com a menssagem "Token não encontrado"',async () => {
       const response = await chai.request(server)
-        .get("/Profile")
+        .post("/Profile")
 
         expect(response).to.have.status(401);
         expect(response.body).to.have.property("message", "Token não encontrado");
@@ -45,7 +44,7 @@ describe('Rota Post /Profile', () => {
   describe('Quando é passado um token invalido na requisição', () => {
     it('retorna status 401 com a menssagem "Token invalido ou expirado"',async () => {
       const response = await chai.request(server)
-      .get("/Profile")
+      .post("/Profile")
       .set("Authorization", "token invalido")
 
       expect(response).to.have.status(401);
@@ -279,3 +278,57 @@ describe('Rota Post /Profile', () => {
     });
   });
 });
+
+describe('Rota GET /Profile', () => {
+
+  before(() => {
+    sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+    sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
+
+  });
+
+  after(() => {
+    UserModelOrigin.findOne.restore();
+    sequelizeOrigin.query.restore();
+  });
+
+  describe('Quando o token nao é passado na requisição', () => {
+    it('retorna status 401 com a menssagem "Token não encontrado"',async () => {
+      const response = await chai.request(server)
+        .get("/Profile")
+
+        expect(response).to.have.status(401);
+        expect(response.body).to.have.property("message", "Token não encontrado");
+    });
+  });
+
+  describe('Quando é passado um token invalido na requisição', () => {
+    it('retorna status 401 com a menssagem "Token invalido ou expirado"',async () => {
+      const response = await chai.request(server)
+      .get("/Profile")
+      .set("Authorization", "token invalido")
+
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property("message", "Token invalido ou expirado");
+    });
+  });
+
+  describe.skip('Ao tentar acessar perfis sem permissão', () => {
+    it('Retorna status 401, com a menssagem "Usuario não autorizado."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+        });
+
+      const response = await chai.request(server)
+        .get("/Profile")
+        .set("Authorization", token);
+
+         expect(response).to.have.status(401);
+         expect(response.body).to.have.property("message", "Usuario não autorizado.");
+    });
+  });
+
+})

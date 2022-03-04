@@ -2,7 +2,7 @@ const menuWithPages = require('../db/AllItemsWithPages.json');
 const acessPermission = require('../db/AcessPermission.json');
 const pages = require('../db/page.json');
 const actions = require('../db/actions.json');
-const { QUERY_ACTIONS, QUERY_PAGES } = require('../../../service/Pages');
+const { QUERY_ACTIONS, QUERY_PAGES } = require('../../../service/util');
 
 const getAllItemsMenuWithPagesFake = async () => {
   return Promise.resolve(menuWithPages)

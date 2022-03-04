@@ -23,6 +23,8 @@ app.get('/Pages', Pages.getAllPages);
 
 app.post('/Profile', Profiles.create);
 
+app.get('/Profile', Profiles.getAll);
+
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
 module.exports = app;
