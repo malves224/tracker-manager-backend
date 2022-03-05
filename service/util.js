@@ -55,20 +55,20 @@ const getActionsByEntity = async (entity) => {
   }
 };
 
-const verifyPermissionAcess = async (idPerfil, VerificationValue = 'entity') => {
-  const actionsByEntity = await getActionsByEntity('pages');
+const verifyPermissionAcess = async (idPerfil, entity) => {
+  const actionsByEntity = await getActionsByEntity(entity);
   const pages = await getPagesAllowedByPerfil(idPerfil);
   const perfilHasAcesso = pages.some((pageItem) => actionsByEntity
     .some((pagesControlEntity) => 
-    pagesControlEntity[VerificationValue] === pageItem[VerificationValue]));
-  return perfilHasAcesso;
+    pagesControlEntity.route === pageItem.route));
+  
+    return perfilHasAcesso;
 };
 
 const verifyPermissionAction = async (idPerfil, actionEntity) => {
   const { entity, action } = actionEntity;
   const actionsByPerfil = await getActionPermissionByPerfil(idPerfil, entity);
   const canAction = actionsByPerfil.some((actionByPerfil) => actionByPerfil[action]);
-  console.log('permisao para action', canAction);
   return canAction;
 };
 
