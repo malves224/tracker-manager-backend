@@ -19,6 +19,16 @@ const create = async (req, res) => {
   res.status(201).json(response);
 };
 
+const edit = async (req, res) => {
+  const { id: idPerfilToEdit } = req.params;
+  const { idPerfil: idPerfilUser } = req.userAuthenticated;
+  const response = await Profiles.edit(idPerfilUser, +idPerfilToEdit, req.body);
+  if (response.message) {
+    res.status(response.code).json({ message: response.message });
+  }
+  res.status(200).json(response);
+};
+
 const getAll = async (req, res) => {
    const { idPerfil } = req.userAuthenticated;
    const response = await Profiles.getAll(idPerfil);
@@ -31,4 +41,5 @@ const getAll = async (req, res) => {
 module.exports = {
   create: [validateProfile, create],
   getAll: [getAll],
+  edit: [validateProfile, edit],
 };

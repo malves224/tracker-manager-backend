@@ -21,6 +21,8 @@ app.get('/UserPages', Pages.getPagesAllowed);
 
 app.get('/Pages', Pages.getAllPages);
 
+app.put('/Profile/:id', Profiles.edit);
+
 app.post('/Profile', Profiles.create);
 
 app.get('/Profile', Profiles.getAll);
