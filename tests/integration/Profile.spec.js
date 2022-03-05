@@ -5,12 +5,14 @@ const sinon = require('sinon');
 const server = require('../../index');
 const fakeUserDB = require('../mock/db/users.json');
 const fakeProfileDB = require('../mock/db/profiles.json');
+const profilesDb = require('../mock/db/profiles.json')
 const { user: UserModelOrigin, 
   sequelize: sequelizeOrigin, 
   acess_profile: AcessProfileOrigin,
   acess_permission: AcessPermissionsOrigin } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
-const { sequelizeQueryFake, createProfileFake } = require('../mock/models/profile');
+const { sequelizeQueryFake, createProfileFake, getAllFake } = require('../mock/models/profile');
+const { sequelizeQueryFake: sequelizeQueryFakeService } = require('../mock/service/pages')
 
 chai.use(chaiHttp);
 
@@ -282,14 +284,15 @@ describe('Rota POST /Profile', () => {
 describe('Rota GET /Profile', () => {
 
   before(() => {
-    sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
-    sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
-
+     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+     sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFakeService);
+     sinon.stub(AcessProfileOrigin, 'findAll').callsFake(getAllFake);
   });
 
   after(() => {
-    UserModelOrigin.findOne.restore();
-    sequelizeOrigin.query.restore();
+     UserModelOrigin.findOne.restore();
+     sequelizeOrigin.query.restore();
+     AcessProfileOrigin.findAll.restore();
   });
 
   describe('Quando o token nao é passado na requisição', () => {
@@ -313,7 +316,7 @@ describe('Rota GET /Profile', () => {
     });
   });
 
-  describe.skip('Ao tentar acessar perfis sem permissão', () => {
+  describe('Ao tentar acessar perfis sem permissão', () => {
     it('Retorna status 401, com a menssagem "Usuario não autorizado."', async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
@@ -331,4 +334,21 @@ describe('Rota GET /Profile', () => {
     });
   });
 
+  describe('Ao tentar acessar perfis com permissão', () => {
+    it('Retorna status 200, com a todos perfis de acesso."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+        });
+
+      const response = await chai.request(server)
+        .get("/Profile")
+        .set("Authorization", token);
+
+         expect(response).to.have.status(200);
+         expect(response.body).to.deep.equals(profilesDb);
+    });
+  });
 })

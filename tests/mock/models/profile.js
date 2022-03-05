@@ -33,7 +33,12 @@ const createProfileFake = (newProfile) => {
   return Promise.resolve(profiles[profiles.length -1]);
 }
 
+const getAllFake = () => {
+  return Promise.resolve(profilesDb);
+}
+
 module.exports = {
   sequelizeQueryFake,
   createProfileFake,
+  getAllFake,
 }
