@@ -1,10 +1,10 @@
-const { QUERY_ACTIONS } = require('../../../service/Profiles');
+const { QUERY_ACTIONS_PERFIL } = require('../../../service/Profiles');
 const acessPermission = require('../db/AcessPermission.json');
 const profilesDb = require('../db/profiles.json')
 const actions = require('../db/actions.json');
 
 const sequelizeQueryFake = (query, options) => {
-  if (query === QUERY_ACTIONS){
+  if (query === QUERY_ACTIONS_PERFIL){
     const { idPerfil, entity } = options.replacements;
     let actionsAllowedByEntity = [];
 
