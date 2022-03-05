@@ -11,7 +11,7 @@ const allPageLoading = () => page.findAll({
 });
 
 const getAllPages = async (idPerfil) => {
-  const perfilHasAcesso = await verifyPermissionAcess(idPerfil, 'route');
+  const perfilHasAcesso = await verifyPermissionAcess(idPerfil, 'pages');
   if (!perfilHasAcesso) {
     return { message: 'Usuario não autorizado.' };
   }
