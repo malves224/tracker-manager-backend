@@ -2,7 +2,7 @@ const { QueryTypes } = require('@sequelize/core');
 const { sequelize, acess_profile: 
     AcessProfile, acess_permission: 
     AcessPermissions } = require('../models');
-const { verifyPermissionAction } = require('./util');
+const { verifyPermissionAction, verifyPermissionAcess } = require('./util');
 
 const QUERY_ACTIONS_PERFIL = `SELECT ap.id_page, ac.entity, ap.create, ap.delete, ap.edit 
 FROM tracker_manager.acess_permissions AS ap
@@ -27,7 +27,7 @@ const createManyPermission = (idPerfil, pages) => pages
 
 const create = async (idPerfilUser, newProfile) => {
   const [entity, action] = ['acess_profiles', 'create']; // não ha nescidade de verificar de verificar a tabela acess_permission, ja que se trata de uma tabela N:N
-   const canCreate = await verifyPermissionAction(idPerfilUser, { entity, action });
+  const canCreate = await verifyPermissionAction(idPerfilUser, { entity, action });
   if (!canCreate) {
     return { message: 'Usuario não autorizado.' };
   }
@@ -41,8 +41,20 @@ const create = async (idPerfilUser, newProfile) => {
   return profileToReturn;
 };
 
+const getAll = async (idPerfil) => {
+  const ENTITY = 'acess_profiles';
+  const perfilHasAcess = await verifyPermissionAcess(idPerfil, ENTITY);
+
+  if (!perfilHasAcess) {
+    return { message: 'Usuario não autorizado.' };
+  }
+  const allProfiles = await AcessProfile.findAll();
+  return allProfiles;
+};
+
 module.exports = { 
   create,
   getActionPermissionByPerfil,
+  getAll,
   QUERY_ACTIONS_PERFIL,
 };

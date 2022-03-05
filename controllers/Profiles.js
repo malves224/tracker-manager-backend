@@ -25,7 +25,7 @@ const getAll = async (req, res) => {
    if (response.message) {
     res.status(401).json({ message: response.message });
    }
-  res.status(201).json('ok');
+  res.status(200).json(response);
 };
 
 module.exports = {
