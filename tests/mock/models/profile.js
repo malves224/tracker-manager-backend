@@ -37,8 +37,16 @@ const getAllFake = () => {
   return Promise.resolve(profilesDb);
 }
 
+const findOneFake = ({where}) => {
+  const columnToSearch = Object.keys(where);
+  const profile = profilesDb
+    .find((profile) => profile[columnToSearch[0]] === where[columnToSearch[0]]);
+  return Promise.resolve(profile);
+}
+
 module.exports = {
   sequelizeQueryFake,
   createProfileFake,
   getAllFake,
+  findOneFake
 }
