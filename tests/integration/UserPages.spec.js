@@ -16,7 +16,6 @@ const expectOutput = [
   { id: 2, name: 'Novo cliente', route: 'NewClient' },
   { id: 3, name: 'Clientes', route: 'ListClients' },
   { id: 4, name: 'Novo veiculo', route: 'NewVehicle' },
-  { id: 11, name: 'Informações do usuario', route: 'UserInfo' },
 ]
 
 describe('Rota /UserPages', () => {
