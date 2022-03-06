@@ -87,6 +87,7 @@ describe('Rota /MenuItems', () => {
     after(() => {
       UserModelOrigin.findOne.restore();
       MenuItemModelOrigin.findAll.restore();
+      AcessPermissionOrigin.findAll.restore();
     });
 
 
