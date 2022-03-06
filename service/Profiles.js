@@ -1,6 +1,5 @@
-const { QueryTypes } = require('@sequelize/core');
 const { Op } = require('sequelize');
-const { sequelize, acess_profile: 
+const { acess_profile: 
     AcessProfile, acess_permission: 
     AcessPermissions } = require('../models');
 const { verifyPermissionAction, verifyPermissionAcess } = require('./util');
@@ -10,18 +9,6 @@ FROM tracker_manager.acess_permissions AS ap
 INNER JOIN tracker_manager.actions AS ac ON ap.id_page = ac.id_page
 WHERE ap.id_perfil = :idPerfil AND ac.entity = :entity;`;
 const MSG_USER_NO_AUTH = 'Usuario não autorizado.';
-
-const getActionPermissionByPerfil = async (idPerfil, entity) => {
-  try {
-    const actionsByPerfil = await sequelize.query(QUERY_ACTIONS_PERFIL, {
-      replacements: { idPerfil, entity },
-      type: QueryTypes.SELECT,
-    });
-    return actionsByPerfil;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 const verifyIfPerfilExist = async (id) => {
   const perfil = await AcessProfile.findOne({ where: { id } });
@@ -47,7 +34,6 @@ const updateAcessPermission = async (idPerfil, newPages) => {
   const currentPages = await AcessPermissions.findAll({ where: { id_perfil: idPerfil } });
   const PermissionPagesForDelete = currentPages.filter((currentPage) => !newPages
   .some((newPage) => newPage.idPage === currentPage.idPage));
-
   const PermissionPagesForCreate = newPages.filter((newPage) => !currentPages
   .some((currentPage) => newPage.idPage === currentPage.idPage));
 
@@ -101,7 +87,7 @@ const edit = async (idPerfilUser, idPerfilToEdit, perfilDataToUpdate) => {
     return { code: 400, message: content };
   }
   const perfilHasPermission = await verifyPermissionAction(idPerfilUser, { entity, action });
-   if (!perfilHasPermission) {
+  if (!perfilHasPermission) {
    return { code: 401, message: 'Usuario não autorizado.' };
   }
 
@@ -114,7 +100,6 @@ const edit = async (idPerfilUser, idPerfilToEdit, perfilDataToUpdate) => {
 
 module.exports = { 
   create,
-  getActionPermissionByPerfil,
   getAll,
   edit,
   QUERY_ACTIONS_PERFIL,
