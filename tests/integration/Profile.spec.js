@@ -11,7 +11,9 @@ const { user: UserModelOrigin,
   acess_profile: AcessProfileOrigin,
   acess_permission: AcessPermissionsOrigin } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
-const { sequelizeQueryFake, createProfileFake, getAllFake, findOneFake } = require('../mock/models/profile');
+const { sequelizeQueryFake, createProfileFake, getAllFake, 
+  findOneFake, updateFake, updatePermissionFake, 
+  findAllPermissionFake } = require('../mock/models/profile');
 const { sequelizeQueryFake: sequelizeQueryFakeService } = require('../mock/service/pages')
 
 chai.use(chaiHttp);
@@ -296,19 +298,18 @@ describe('Rota PUT /Profile', () => {
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
     sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
-    sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake)
-    // mock update, destroy, create de acessPermission
-    // mock create acessProfile
-    // enves de create, edit sinon.stub(AcessProfileOrigin, 'update').callsFake(createProfileFake);
-    // enves de create, edit sinon.stub(AcessPermissionsOrigin, 'create').returns(Promise);
+    sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake);
+    sinon.stub(AcessProfileOrigin, 'update').callsFake(updateFake);
+    sinon.stub(AcessPermissionsOrigin, 'findAll').callsFake(findAllPermissionFake);
   });
 
   after(() => {
     UserModelOrigin.findOne.restore();
     sequelizeOrigin.query.restore();
     AcessProfileOrigin.findOne.restore();
-    // AcessProfileOrigin.create.restore();
-    // AcessPermissionsOrigin.create.restore();
+    AcessProfileOrigin.update.restore();
+    AcessPermissionsOrigin.findAll.restore();
+    AcessPermissionsOrigin.restore();
   });
 
   describe('Quando o token nao é passado na requisição', () => {
@@ -541,10 +542,58 @@ describe('Rota PUT /Profile', () => {
       expect(response).to.have.status(401);
       expect(response.body).to.have.property("message", "Usuario não autorizado.")
     })
-  })
+  });
 
-})
+  describe('Quando o perfil do usuario tem permissão para editar', () => {
+    it('Ao editar sem adcionar ou remover paginas, retorna 200 com o perfil do body', async () => {
+      const dataForEdit = {
+        "name": "editando",
+        "pages": [
+          {
+            "idPage": 1,
+            "edit": false,
+            "delete": false,
+            "create": false
+          },
+          {
+            "idPage": 2,
+            "edit": false,
+            "delete": false,
+            "create": false
+          },
+          {
+            "idPage": 3,
+            "edit": false,
+            "delete": false,
+            "create": false
+          },
+          {
+            "idPage": 4,
+            "edit": false,
+            "delete": false,
+            "create": false
+          }
 
+        ] 
+      }
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+      });
+
+      const response = await chai.request(server)
+      .put("/Profile/2")
+      .send(dataForEdit)
+      .set("Authorization", token);
+      
+      expect(AcessPermissionsOrigin.update).not.throw();
+      expect(response).to.have.status(200);
+      expect(response.body).to.deep.equal({"id": 2, ...dataForEdit});
+    });
+  });
+});
 
 describe('Rota GET /Profile', () => {
 
@@ -601,6 +650,12 @@ describe('Rota GET /Profile', () => {
 
   describe('Ao tentar acessar perfis com permissão', () => {
     it('Retorna status 200, com a todos perfis de acesso."', async () => {
+      
+      before(() => {
+        sinon.stub(AcessPermissionsOrigin, 'findAll').callsFake(findAllPermissionFake);
+        sinon.stub(AcessPermissionsOrigin, 'update').callsFake(updatePermissionFake);
+      });
+
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({

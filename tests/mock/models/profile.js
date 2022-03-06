@@ -44,9 +44,34 @@ const findOneFake = ({where}) => {
   return Promise.resolve(profile);
 }
 
+const updateFake = (dataToEdit, { where }) => {
+  const { id } = where
+  const profile = profilesDb.find((profile) => profile.id === id);
+  profile.name = dataToEdit;
+  return Promise.resolve(profile);
+}
+
+const findAllPermissionFake = ({where}) => {
+  const { id_perfil } = where;
+  let allPermissionFiltred = []; 
+  acessPermission
+    .filter((perm) => perm.id_perfil === id_perfil)
+    .forEach((permPage) => {
+      allPermissionFiltred = [...allPermissionFiltred, { idPage: permPage.id_page, ...permPage }]
+    });
+  return Promise.resolve(allPermissionFiltred);
+}
+
+const updatePermissionFake = () => {
+  return Promise.resolve('ok')
+}
+
 module.exports = {
   sequelizeQueryFake,
   createProfileFake,
   getAllFake,
-  findOneFake
+  findOneFake,
+  updateFake,
+  updatePermissionFake,
+  findAllPermissionFake
 }
