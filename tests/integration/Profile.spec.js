@@ -283,7 +283,7 @@ describe('Rota POST /Profile', () => {
   });
 });
 
-describe('Rota PUT /Profile', () => {
+describe('Rota PUT /Profile/:id', () => {
   const bodyValid = {
     "name": "admin",
     "pages": [
@@ -350,7 +350,6 @@ describe('Rota PUT /Profile', () => {
       expect(response).to.have.status(400);
       expect(response.body).to.have.property("message", "ID Na deve ser um numero.")  
     });
-
   });
 
   describe('Ao passar um body na requisição com o formato incorreto',async () => {
@@ -672,3 +671,132 @@ describe('Rota GET /Profile', () => {
     });
   });
 });
+
+describe.only('Rota DELETE /Profile/:id', () => {
+
+    before(() => {
+    sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+    sinon.stub(UserModelOrigin, 'findAll').callsFake(UserModelFake.findAll)
+    sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
+    sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake);
+  });
+
+  after(() => {
+    UserModelOrigin.findOne.restore();
+    UserModelOrigin.findAll.restore();
+    sequelizeOrigin.query.restore();
+    AcessProfileOrigin.findOne.restore();
+    AcessPermissionsOrigin.restore();
+  });
+
+  describe('Quando o token nao é passado na requisição', () => {
+    it('retorna status 401 com a menssagem "Token não encontrado"',async () => {
+      const response = await chai.request(server)
+        .delete("/Profile/1")
+
+        expect(response).to.have.status(401);
+        expect(response.body).to.have.property("message", "Token não encontrado");
+    });
+  });
+
+  describe('Quando é passado um token invalido na requisição', () => {
+    it('retorna status 401 com a menssagem "Token invalido ou expirado"',async () => {
+      const response = await chai.request(server)
+      .delete("/Profile/1")
+      .set("Authorization", "token invalido")
+
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property("message", "Token invalido ou expirado");
+    });
+  });
+
+  describe('Ao passar um valor na rota que não seja um numero', () => {
+    it('Retorna status 400, com a menssagem "ID Na deve ser um numero."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+
+      const response = await chai.request(server)
+      .delete("/Profile/dasdsa")
+      .set("Authorization", token);
+  
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "ID Na deve ser um numero.")  
+    });
+  });
+
+  describe('Quando o Perfil do usuario para excluir não existe', () => {
+    it('Retorna status 400 com a menssagem "Perfil de acesso não existe."',async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+
+      const response = await chai.request(server)
+      .delete("/Profile/999")
+      .set("Authorization", token);
+      
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "Perfil de acesso não existe.")
+    });
+  });
+
+  describe('Quando o Perfil do usuario não tem permissão para excluir', () => {
+    it('retorna o status 401 com a menssagem "Usuario não autorizado."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+
+      const response = await chai.request(server)
+      .delete("/Profile/1")
+      .set("Authorization", token);
+
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property("message", "Usuario não autorizado.")
+    })
+  });
+
+  describe('Quando o Perfil para exclusão pertence a algum usuario', () => {
+    it('Retorna status 403, com a menssagem devida.', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+      });
+
+      const response = await chai.request(server)
+      .delete("/Profile/1")
+      .set("Authorization", token);
+
+      expect(response).to.have.status(403);
+      expect(response.body).to.have.property("message", "Perfil possui vincula com algum usuário, e não pode ser excluido.");
+    });
+  });
+
+  describe('Quando o perfil para exclusão nao pertence a nenhum usuario', () => {
+    it('Retorna status 204, sem informações no body.', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+      });
+
+      const response = await chai.request(server)
+      .delete("/Profile/3")
+      .set("Authorization", token);
+
+      expect(response).to.have.status(204);
+    });
+
+  });
+})
