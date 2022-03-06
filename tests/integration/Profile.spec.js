@@ -281,7 +281,7 @@ describe('Rota POST /Profile', () => {
   });
 });
 
-describe.only('Rota PUT /Profile', () => {
+describe('Rota PUT /Profile', () => {
   const bodyValid = {
     "name": "admin",
     "pages": [
@@ -330,6 +330,26 @@ describe.only('Rota PUT /Profile', () => {
       expect(response).to.have.status(401);
       expect(response.body).to.have.property("message", "Token invalido ou expirado");
     });
+  });
+
+  describe('Ao passar um valor na rota que não seja um numero', () => {
+    it('Retorna status 400, com a menssagem "ID Na deve ser um numero."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+
+      const response = await chai.request(server)
+      .put("/Profile/dasdsa")
+      .send(bodyValid)
+      .set("Authorization", token);
+  
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "ID Na deve ser um numero.")  
+    });
+
   });
 
   describe('Ao passar um body na requisição com o formato incorreto',async () => {

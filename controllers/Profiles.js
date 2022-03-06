@@ -10,6 +10,14 @@ const validateProfile = async (req, res, next) => {
   }
 };
 
+const validateParamsId = (req, res, next) => {
+  const id = +req.params.id;
+  if (!id) {
+    return res.status(400).json({ message: 'ID Na deve ser um numero.' });
+  }
+  next();
+};
+
 const create = async (req, res) => { 
   const { idPerfil } = req.userAuthenticated;
   const response = await Profiles.create(idPerfil, req.body);
@@ -41,5 +49,5 @@ const getAll = async (req, res) => {
 module.exports = {
   create: [validateProfile, create],
   getAll: [getAll],
-  edit: [validateProfile, edit],
+  edit: [validateParamsId, validateProfile, edit],
 };
