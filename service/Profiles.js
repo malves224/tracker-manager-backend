@@ -1,7 +1,8 @@
 const { Op } = require('sequelize');
 const { acess_profile: 
     AcessProfile, acess_permission: 
-    AcessPermissions } = require('../models');
+    AcessPermissions, user,
+   } = require('../models');
 const { verifyPermissionAction, verifyPermissionAcess } = require('./util');
 
 const QUERY_ACTIONS_PERFIL = `SELECT ap.id_page, ac.entity, ap.create, ap.delete, ap.edit 
@@ -13,6 +14,11 @@ const MSG_USER_NO_AUTH = 'Usuario não autorizado.';
 const verifyIfPerfilExist = async (id) => {
   const perfil = await AcessProfile.findOne({ where: { id } });
   return [!!perfil, perfil || 'Perfil de acesso não existe.'];
+};
+
+const verifyIfPerfilBelongToAnyUser = async (idPerfil) => {
+  const [usersByIdPerfil] = await user.findAll({ where: { idPerfil } });
+  return !!usersByIdPerfil;
 };
 
 const createManyPermission = (idPerfil, pages) => pages
@@ -88,7 +94,7 @@ const edit = async (idPerfilUser, idPerfilToEdit, perfilDataToUpdate) => {
   }
   const perfilHasPermission = await verifyPermissionAction(idPerfilUser, { entity, action });
   if (!perfilHasPermission) {
-   return { code: 401, message: 'Usuario não autorizado.' };
+   return { code: 401, message: MSG_USER_NO_AUTH };
   }
 
   const { name } = perfilDataToUpdate;
@@ -98,9 +104,30 @@ const edit = async (idPerfilUser, idPerfilToEdit, perfilDataToUpdate) => {
   return { id: idPerfilToEdit, ...perfilDataToUpdate };
 };
 
+const deleteProfile = async (idPerfilUser, idPerfilToDelete) => {
+  const [entity, action] = ['acess_profiles', 'delete'];
+
+  const [perfilExist, content] = await verifyIfPerfilExist(idPerfilToDelete);
+  if (!perfilExist) {
+    return { code: 400, message: content };
+  }
+  const perfilHasPermission = await verifyPermissionAction(idPerfilUser, { entity, action });
+  if (!perfilHasPermission) {
+    return { code: 401, message: MSG_USER_NO_AUTH };
+  }
+  const perfilBelongToAnyUser = await verifyIfPerfilBelongToAnyUser(idPerfilToDelete);
+  if (perfilBelongToAnyUser) {
+    return { code: 403, 
+    message: 'Perfil possui vincula com algum usuário, e não pode ser excluido.' };
+  }
+  await AcessProfile.destroy({ where: { id: idPerfilToDelete } });
+  return {};
+};
+
 module.exports = { 
   create,
   getAll,
   edit,
+  deleteProfile,
   QUERY_ACTIONS_PERFIL,
 };
