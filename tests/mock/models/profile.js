@@ -47,17 +47,24 @@ const findOneFake = ({where}) => {
 const updateFake = (dataToEdit, { where }) => {
   const { id } = where
   const profile = profilesDb.find((profile) => profile.id === id);
-  profile.name = dataToEdit;
-  return Promise.resolve(profile);
+  return Promise.resolve({
+    ...id,
+    name: dataToEdit
+  });
 }
 
 const findAllPermissionFake = ({where}) => {
-  const { id_perfil } = where;
+  const { idPerfil } = where;
   let allPermissionFiltred = []; 
   acessPermission
-    .filter((perm) => perm.id_perfil === id_perfil)
+    .filter((perm) => perm.id_perfil === idPerfil)
     .forEach((permPage) => {
-      allPermissionFiltred = [...allPermissionFiltred, { idPage: permPage.id_page, ...permPage }]
+      allPermissionFiltred = [...allPermissionFiltred, {
+        idPage: permPage.id_page,
+        create: !permPage.create ? null : true, 
+        delete: !permPage.delete ? null : true, 
+        edit: !permPage.edit ? null : true
+      }]
     });
   return Promise.resolve(allPermissionFiltred);
 }

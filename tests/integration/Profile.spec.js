@@ -14,6 +14,7 @@ const { User: UserModelFake } = require('../mock/models/user');
 const { sequelizeQueryFake, createProfileFake, getAllFake, 
   findOneFake, updateFake, updatePermissionFake, 
   findAllPermissionFake } = require('../mock/models/profile');
+const { perfilOneWithPages, perfilTwoWithPages } = require('../mock/expectData/Profile');
 const { sequelizeQueryFake: sequelizeQueryFakeService } = require('../mock/service/pages')
 
 chai.use(chaiHttp);
@@ -309,7 +310,6 @@ describe('Rota PUT /Profile/:id', () => {
     AcessProfileOrigin.findOne.restore();
     AcessProfileOrigin.update.restore();
     AcessPermissionsOrigin.findAll.restore();
-    AcessPermissionsOrigin.restore();
   });
 
   describe('Quando o token nao é passado na requisição', () => {
@@ -672,7 +672,109 @@ describe('Rota GET /Profile', () => {
   });
 });
 
-describe.only('Rota DELETE /Profile/:id', () => {
+describe('Rota GET /Profile/:id', () => {
+
+  before(() => {
+    sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
+    sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFakeService);
+    sinon.stub(AcessProfileOrigin, 'findAll').callsFake(getAllFake);
+    sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake);
+    sinon.stub(AcessPermissionsOrigin, 'findAll').callsFake(findAllPermissionFake)
+  });
+
+ after(() => {
+    UserModelOrigin.findOne.restore();
+    sequelizeOrigin.query.restore();
+    AcessProfileOrigin.findAll.restore();
+    AcessProfileOrigin.findOne.restore();
+    AcessPermissionsOrigin.findAll.restore();
+ });
+
+  describe('Quando o token nao é passado na requisição', () => {
+  it('retorna status 401 com a menssagem "Token não encontrado"',async () => {
+    const response = await chai.request(server)
+      .get("/Profile")
+
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property("message", "Token não encontrado");
+  });
+  });
+
+  describe('Quando é passado um token invalido na requisição', () => {
+    it('retorna status 401 com a menssagem "Token invalido ou expirado"',async () => {
+      const response = await chai.request(server)
+      .get("/Profile/1")
+      .set("Authorization", "token invalido")
+
+      expect(response).to.have.status(401);
+      expect(response.body).to.have.property("message", "Token invalido ou expirado");
+    });
+  });
+
+  describe('Ao tentar acessar perfil sem permissão', () => {
+    it('Retorna status 401, com a menssagem "Usuario não autorizado."', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+        });
+
+      const response = await chai.request(server)
+        .get("/Profile/1")
+        .set("Authorization", token);
+
+        expect(response).to.have.status(401);
+        expect(response.body).to.have.property("message", "Usuario não autorizado.");
+    });
+  });
+
+  describe('Quando o Perfil de acesso não existe', () => {
+    it('Retorna status 400 com a menssagem "Perfil de acesso não existe."',async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+      });
+
+      const response = await chai.request(server)
+      .get("/Profile/999")
+      .set("Authorization", token);
+
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "Perfil de acesso não existe.")
+    });
+  });
+
+  describe('Caso esteja tudo certo com as verificações anteriores', () => {
+    it('Retorna status 200 e o perfil de acesso com as paginas permitidas.', async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[0].login,
+        password: "123456789"
+      });
+
+      const responsePerfilOne = await chai.request(server)
+      .get("/Profile/1")
+      .set("Authorization", token);
+
+      expect(responsePerfilOne).to.have.status(200);
+      expect(responsePerfilOne.body).to.deep.equals(perfilOneWithPages);
+
+      const responsePerfilTwo = await chai.request(server)
+      .get("/Profile/2")
+      .set("Authorization", token);
+
+      expect(responsePerfilTwo).to.have.status(200);
+      expect(responsePerfilTwo.body).to.deep.equals(perfilTwoWithPages);
+    });
+  });
+  
+});
+
+describe('Rota DELETE /Profile/:id', () => {
 
     before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
@@ -799,4 +901,5 @@ describe.only('Rota DELETE /Profile/:id', () => {
     });
 
   });
-})
+});
+
