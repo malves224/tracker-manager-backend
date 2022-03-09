@@ -57,9 +57,21 @@ const deleteProfile = async (req, res) => {
   return res.status(204).end();
 };
 
+const getById = async (req, res) => {
+  const { id: idPerfilToGet } = req.params;
+  const { idPerfil: idPerfilUser } = req.userAuthenticated;
+
+  const response = await Profiles.getById(idPerfilUser, +idPerfilToGet);
+  if (response.message) {
+    return res.status(response.code).json({ message: response.message });
+  }
+  res.status(200).json(response);
+};
+
 module.exports = {
   create: [validateProfile, create],
   getAll: [getAll],
   edit: [validateParamsId, validateProfile, edit],
   deleteProfile: [validateParamsId, deleteProfile],
+  getById: [validateParamsId, getById],
 };

@@ -37,7 +37,7 @@ const deleteManyPermission = (idPerfil, pages) => pages.map((perm) => AcessPermi
  }));
 
 const updateAcessPermission = async (idPerfil, newPages) => {
-  const currentPages = await AcessPermissions.findAll({ where: { id_perfil: idPerfil } });
+  const currentPages = await AcessPermissions.findAll({ where: { idPerfil } });
   const PermissionPagesForDelete = currentPages.filter((currentPage) => !newPages
   .some((newPage) => newPage.idPage === currentPage.idPage));
   const PermissionPagesForCreate = newPages.filter((newPage) => !currentPages
@@ -124,10 +124,39 @@ const deleteProfile = async (idPerfilUser, idPerfilToDelete) => {
   return {};
 };
 
+const getPagesByPerfil = async (idPerfil) => {
+  const profilePagesWithActions = await AcessPermissions.findAll({ 
+    where: { idPerfil }, attributes: { exclude: ['id_page', 'id_perfil', 'idPerfil'] },
+  });
+  return profilePagesWithActions;
+};
+
+const getById = async (idPerfilUser, idPerfilToGet) => {
+  const ENTITY = 'acess_profiles';
+  const perfilHasAcess = await verifyPermissionAcess(idPerfilUser, ENTITY);
+
+  const [perfilExist, content] = await verifyIfPerfilExist(idPerfilToGet);
+  if (!perfilExist) {
+    return { code: 400, message: content };
+  }
+
+  if (!perfilHasAcess) {
+    return { code: 401, message: MSG_USER_NO_AUTH };
+  }
+  const perfilToGetData = content;
+  const profilePagesWithActions = await getPagesByPerfil(idPerfilToGet);
+  return {
+    id: perfilToGetData.id,
+    name: perfilToGetData.name,
+    pages: profilePagesWithActions,
+  };
+};
+
 module.exports = { 
   create,
   getAll,
   edit,
   deleteProfile,
+  getById,
   QUERY_ACTIONS_PERFIL,
 };

@@ -6,6 +6,7 @@ const { User, MenuItems, Pages, Profiles } = require('./controllers');
 
 const port = process.env.PORT || 3001;
 const app = express();
+const ROTA_PROFILE_ID = '/Profile/:id';
 
 app.use([cors(), bodyParser.json()]);
 
@@ -21,9 +22,11 @@ app.get('/UserPages', Pages.getPagesAllowed);
 
 app.get('/Pages', Pages.getAllPages);
 
-app.delete('/Profile/:id', Profiles.deleteProfile);
+app.delete(ROTA_PROFILE_ID, Profiles.deleteProfile);
 
-app.put('/Profile/:id', Profiles.edit);
+app.get(ROTA_PROFILE_ID, Profiles.getById);
+
+app.put(ROTA_PROFILE_ID, Profiles.edit);
 
 app.post('/Profile', Profiles.create);
 
