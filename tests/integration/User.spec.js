@@ -243,7 +243,7 @@ describe.only('Rota POST /User', () => {
     });
 
     it(`campo email com formato invalido,
-           retorna status 400 com a menssagem "email menssagem do formato incorreto"`, async () => {
+           retorna status 400 com a menssagem "Email com formato invalido"`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -264,7 +264,7 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
 
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email menssagem do formato incorreto"); // é preciso verificar retorno do joi
+      expect(response.body).to.have.property("message", "Email com formato invalido.");
 
       const response2 = await chai.request(server)
       .post("/User")
@@ -280,7 +280,7 @@ describe.only('Rota POST /User', () => {
 
   
       expect(response2).to.have.status(400);
-      expect(response2.body).to.have.property("message", "email menssagem do formato incorreto"); // é preciso verificar retorno do joi
+      expect(response2.body).to.have.property("message", "Email com formato invalido.");
 
     });
 
@@ -430,6 +430,55 @@ describe.only('Rota POST /User', () => {
   
       expect(response).to.have.status(400);
       expect(response.body).to.have.property("message", "password must be longer than 2 characters");
+    });
+
+    it(`Sem o Campo idPerfil,
+           retorna status 400 com a menssagem "idPerfil is required`, async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+  
+      const response = await chai.request(server)
+      .post("/User")
+      .send({
+          "fullName": "MATHEUS ALVES",
+          "occupation": "vendedor",
+          "email": "malves224@outlook.com",
+          "password": "123456789",
+          "contact": "1195424244",
+        })
+      .set("Authorization", token);
+  
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "idPerfil is required");
+    });
+
+    it(`Campo idPerfil não sendo um numero,
+           retorna status 400 com a menssagem "idPerfil must be a number`, async () => {
+      const { body: { token } } = await chai.request(server)
+      .post("/Login")
+      .send({
+        login: fakeUserDB[1].login,
+        password: "987654321"
+      });
+  
+      const response = await chai.request(server)
+      .post("/User")
+      .send({
+          "fullName": "MATHEUS ALVES",
+          "occupation": "vendedor",
+          "email": "malves224@outlook.com",
+          "password": "123456789",
+          "contact": "1195424244",
+          "idPerfil": "asd"
+        })
+      .set("Authorization", token);
+  
+      expect(response).to.have.status(400);
+      expect(response.body).to.have.property("message", "idPerfil must be a number");
     });
 
     it(`Campo idPerfil que não existe,
