@@ -72,7 +72,7 @@ const perfilOneWithPages = {
       "idPage": 12,
       "edit": null,
       "delete": null,
-      "create": null
+      "create": true
     },
     {
       "idPage": 13,

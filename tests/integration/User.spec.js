@@ -12,7 +12,7 @@ const { sequelizeQueryFake, findOneFake } = require('../mock/models/profile');
 const { expectNewUser } = require('../mock/expectData/user');
 
 
-describe.only('Rota POST /User', () => {
+describe('Rota POST /User', () => {
 
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
