@@ -32,6 +32,8 @@ app.post('/Profile', Profiles.create);
 
 app.get('/Profile', Profiles.getAll);
 
+app.post('/User', User.create);
+
 app.listen(port, () => console.log(`app listening on port ${port}!`));
 
 module.exports = app;
