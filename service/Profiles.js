@@ -160,4 +160,5 @@ module.exports = {
   getById,
   verifyIfPerfilExist,
   QUERY_ACTIONS_PERFIL,
+  MSG_USER_NO_AUTH,
 };
