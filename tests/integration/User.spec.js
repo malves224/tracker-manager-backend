@@ -45,7 +45,7 @@ describe.only('Rota POST /User', () => {
   describe('Ao passar um body na requisição com o formato incorreto', () => {
 
     it(`Sem o campo fullName, 
-          retorna status 400 com a menssagem "fullName is required"`, async () => {
+          retorna status 400 com a menssagem '"fullName" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -65,7 +65,7 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "fullName is required");
+      expect(response.body).to.have.property("message", '"fullName" is required');
   
     });
 
@@ -91,11 +91,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "fullName must be a string");
+      expect(response.body).to.have.property("message", '"fullName" must be a string');
     });
 
     it(`campo fullName com menos de 3 caracteres,
-           retorna status 400 com a menssagem "fullName must be longer than 2 characters"`, async () => {
+           retorna status 400 com a menssagem '"fullName" length must be at least 3 characters long'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -116,11 +116,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "fullName must be longer than 2 characters");
+      expect(response.body).to.have.property("message", '"fullName" length must be at least 3 characters long');
     });
 
     it(`Sem o campo occupation,
-           retorna status 400 com a menssagem "occupation is required"`, async () => {
+           retorna status 400 com a menssagem '"occupation" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -140,11 +140,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "occupation is required");
+      expect(response.body).to.have.property("message", '"occupation" is required');
     });
 
     it(`campo occupation não sendo string,
-           retorna status 400 com a menssagem "occupation must be a string"`, async () => {
+           retorna status 400 com a menssagem '"occupation" must be a string`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -165,11 +165,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "occupation must be a string");
+      expect(response.body).to.have.property("message", '"occupation" must be a string');
     });
     
     it(`campo occupation com menos de 3 caracteres,
-           retorna status 400 com a menssagem "occupation must be longer than 2 characters"`, async () => {
+           retorna status 400 com a menssagem '"occupation" length must be at least 3 characters long'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -190,11 +190,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "occupation must be longer than 2 characters");
+      expect(response.body).to.have.property("message", '"occupation" length must be at least 3 characters long');
     });
 
     it(`Sem o campo email,
-           retorna status 400 com a menssagem "email is required"`, async () => {
+           retorna status 400 com a menssagem '"email" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -214,11 +214,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email is required");
+      expect(response.body).to.have.property("message", '"email" is required');
     });
 
     it(`campo email não sendo string,
-           retorna status 400 com a menssagem "email must be a string"`, async () => {
+           retorna status 400 com a menssagem '"email" must be a string'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -239,11 +239,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email must be a string");
+      expect(response.body).to.have.property("message", '"email" must be a string');
     });
 
     it(`campo email com formato invalido,
-           retorna status 400 com a menssagem "Email com formato invalido"`, async () => {
+           retorna status 400 com a menssagem 'Email com formato invalido'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -264,7 +264,7 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
 
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "Email com formato invalido.");
+      expect(response.body).to.have.property("message", 'Email com formato invalido.');
 
       const response2 = await chai.request(server)
       .post("/User")
@@ -285,7 +285,7 @@ describe.only('Rota POST /User', () => {
     });
 
     it(`Sem o campo contact,
-           retorna status 400 com a menssagem "contact is required`, async () => {
+           retorna status 400 com a menssagem '"contact" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -305,11 +305,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email is required");
+      expect(response.body).to.have.property("message", '"contact" is required');
     });
 
     it(`campo contact não sendo string,
-           retorna status 400 com a menssagem "contact must be a string`, async () => {
+           retorna status 400 com a menssagem '"contact" must be a string'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -330,11 +330,11 @@ describe.only('Rota POST /User', () => {
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email must be a string");
+      expect(response.body).to.have.property("message", '"contact" must be a string');
     });
 
     it(`Campo contact invalido,
-           retorna status 400 com a menssagem "contact check msg patern regex`, async () => {
+           retorna status 400 com a menssagem 'Telefone celular com formato invalido.'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -348,18 +348,18 @@ describe.only('Rota POST /User', () => {
           "fullName": "MATHEUS ALVES",
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
-          "contact": "1185424244",
+          "contact": "85424244",
           "password": "123456789",
           "idPerfil": 1
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "email check msg patern regex");
+      expect(response.body).to.have.property("message", 'Telefone celular com formato invalido.');
     });
 
     it(`Sem o Campo password,
-           retorna status 400 com a menssagem "password is required`, async () => {
+           retorna status 400 com a menssagem '"password" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -373,17 +373,17 @@ describe.only('Rota POST /User', () => {
           "fullName": "MATHEUS ALVES",
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "idPerfil": 1
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "password is required");
+      expect(response.body).to.have.property("message", '"password" is required');
     });
 
     it(`campo password não sendo string,
-           retorna status 400 com a menssagem "password must be a string`, async () => {
+           retorna status 400 com a menssagem '"password" must be a string'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -397,18 +397,18 @@ describe.only('Rota POST /User', () => {
           "fullName": "MATHEUS ALVES",
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "password": 1234,
           "idPerfil": 1
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "password must be a string");
+      expect(response.body).to.have.property("message", '"password" must be a string');
     });
 
     it(`Campo password tendo menor que 8 caracteres,
-           retorna status 400 com a menssagem "password must be longer than 2 characters`, async () => {
+           retorna status 400 com a menssagem '"password" length must be at least 8 characters long'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -423,17 +423,17 @@ describe.only('Rota POST /User', () => {
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
           "password": "123",
-          "contact": "1195424244",
+          "contact": "11954242424",
           "idPerfil": 1
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "password must be longer than 2 characters");
+      expect(response.body).to.have.property("message", '"password" length must be at least 8 characters long');
     });
 
     it(`Sem o Campo idPerfil,
-           retorna status 400 com a menssagem "idPerfil is required`, async () => {
+           retorna status 400 com a menssagem '"idPerfil" is required'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -448,16 +448,16 @@ describe.only('Rota POST /User', () => {
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
           "password": "123456789",
-          "contact": "1195424244",
+          "contact": "11954242444",
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "idPerfil is required");
+      expect(response.body).to.have.property("message", '"idPerfil" is required');
     });
 
     it(`Campo idPerfil não sendo um numero,
-           retorna status 400 com a menssagem "idPerfil must be a number`, async () => {
+           retorna status 400 com a menssagem '"idPerfil" must be a number'`, async () => {
       const { body: { token } } = await chai.request(server)
       .post("/Login")
       .send({
@@ -472,13 +472,13 @@ describe.only('Rota POST /User', () => {
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
           "password": "123456789",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "idPerfil": "asd"
         })
       .set("Authorization", token);
   
       expect(response).to.have.status(400);
-      expect(response.body).to.have.property("message", "idPerfil must be a number");
+      expect(response.body).to.have.property("message", '"idPerfil" must be a number');
     });
 
     it(`Campo idPerfil que não existe,
@@ -497,7 +497,7 @@ describe.only('Rota POST /User', () => {
           "occupation": "vendedor",
           "email": "malves224@outlook.com",
           "password": "123456789",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "idPerfil": 9999
         })
       .set("Authorization", token);

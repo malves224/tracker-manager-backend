@@ -28,8 +28,8 @@ const schemaNewUser = Joi.object({
   contact: Joi.string().required()
     .pattern(/^[1-9]{2}(?:[2-8]|9[1-9])[0-9]{3}[0-9]{4}$/)
     .messages(typeCustomMessages.contact),
-  password: Joi.string.required().min(8),
-  idPerfil: Joi.number.required(),
+  password: Joi.string().required().min(8),
+  idPerfil: Joi.number().required(),
 });
 
 const userValidate = async (newProfile) => {
@@ -37,7 +37,6 @@ const userValidate = async (newProfile) => {
     await schemaNewUser.validateAsync(newProfile);
   } catch ({ details }) {
     const messageErro = details[0].message;
-    console.log(details);
     const newErro = new Error(messageErro);
     throw newErro;
   }
