@@ -9,6 +9,7 @@ const { user: UserModelOrigin,
   acess_profile: AcessProfileOrigin  } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
 const { sequelizeQueryFake, findOneFake } = require('../mock/models/profile');
+const { expectNewUser } = require('../mock/expectData/user');
 
 
 describe.only('Rota POST /User', () => {
@@ -17,10 +18,12 @@ describe.only('Rota POST /User', () => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
     sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
     sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake);
+    sinon.stub(UserModelOrigin, 'create').callsFake(UserModelFake.create);
   });
 
   after(() => {
     UserModelOrigin.findOne.restore();
+    UserModelOrigin.create.restore();
     sequelizeOrigin.query.restore();
     AcessProfileOrigin.findOne.restore();
   });
@@ -527,7 +530,7 @@ describe.only('Rota POST /User', () => {
           "fullName": "MATHEUS ALVES DE OLIVEIRA",
           "occupation": "administrador",
           "email": "malves224@clewsat.com",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "password": "123456789",
           "idPerfil": 1,
         })
@@ -553,14 +556,14 @@ describe.only('Rota POST /User', () => {
           "fullName": "MATHEUS ALVES DE OLIVEIRA",
           "occupation": "administrador",
           "email": "teste@clewsat.com",
-          "contact": "1195424244",
+          "contact": "11954242444",
           "password": "123456789",
           "idPerfil": 1,
         })
         .set("Authorization", token);
 
-         expect(response).to.have.status(401);
-         // expect(response.body).to.have.property("message", "Usuario não autorizado.");
+         expect(response).to.have.status(201);
+         expect(response.body).to.deep.equal(expectNewUser);
     });
   });
 
