@@ -3,8 +3,10 @@ const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 const { user } = require('../models');
 const { User: UserSchema } = require('../schemas');
+const { verifyIfPerfilExist } = require('./Profiles');
 
 const secret = process.env.JWT_SECRET;
+const MSG_PERFIL_NOT_EXIST = 'O perfil atribuido não existe.';
 
 // eslint-disable-next-line no-unused-vars
 const generateHash = async (password) => {
@@ -64,6 +66,18 @@ const login = async (loginData) => {
   return token;
 };
 
+const create = async (idPerfilUserCurrent, newUSerData) => {
+  const { idPerfil } = newUSerData;
+  const [perfilExist, content] = await verifyIfPerfilExist(idPerfil, MSG_PERFIL_NOT_EXIST);
+  if (!perfilExist) {
+    return { code: 400, message: content };
+  }
+  return {};
+  // check permission
+  // create user with hash
+};
+
 module.exports = {
   login,
+  create,
 };

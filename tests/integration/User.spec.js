@@ -4,9 +4,11 @@ const chaiHttp = require('chai-http');
 const sinon = require('sinon');
 const server = require('../../index');
 const fakeUserDB = require('../mock/db/users.json');
-const { user: UserModelOrigin, sequelize: sequelizeOrigin } = require('../../models');
+const { user: UserModelOrigin, 
+  sequelize: sequelizeOrigin,
+  acess_profile: AcessProfileOrigin  } = require('../../models');
 const { User: UserModelFake } = require('../mock/models/user');
-const { sequelizeQueryFake } = require('../mock/models/profile');
+const { sequelizeQueryFake, findOneFake } = require('../mock/models/profile');
 
 
 describe.only('Rota POST /User', () => {
@@ -14,11 +16,13 @@ describe.only('Rota POST /User', () => {
   before(() => {
     sinon.stub(UserModelOrigin, 'findOne').callsFake(UserModelFake.findOne);
     sinon.stub(sequelizeOrigin, 'query').callsFake(sequelizeQueryFake);
+    sinon.stub(AcessProfileOrigin, 'findOne').callsFake(findOneFake);
   });
 
   after(() => {
     UserModelOrigin.findOne.restore();
     sequelizeOrigin.query.restore();
+    AcessProfileOrigin.findOne.restore();
   });
 
   describe('Quando o token nao é passado na requisição', () => {
@@ -495,7 +499,7 @@ describe.only('Rota POST /User', () => {
       .send({
           "fullName": "MATHEUS ALVES",
           "occupation": "vendedor",
-          "email": "malves224@outlook.com",
+          "email": "malves224@teste.com",
           "password": "123456789",
           "contact": "11954242444",
           "idPerfil": 9999

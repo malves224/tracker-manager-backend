@@ -11,9 +11,9 @@ INNER JOIN tracker_manager.actions AS ac ON ap.id_page = ac.id_page
 WHERE ap.id_perfil = :idPerfil AND ac.entity = :entity;`;
 const MSG_USER_NO_AUTH = 'Usuario não autorizado.';
 
-const verifyIfPerfilExist = async (id) => {
+const verifyIfPerfilExist = async (id, msg = 'Perfil de acesso não existe.') => {
   const perfil = await AcessProfile.findOne({ where: { id } });
-  return [!!perfil, perfil || 'Perfil de acesso não existe.'];
+  return [!!perfil, perfil || msg];
 };
 
 const verifyIfPerfilBelongToAnyUser = async (idPerfil) => {
@@ -158,5 +158,6 @@ module.exports = {
   edit,
   deleteProfile,
   getById,
+  verifyIfPerfilExist,
   QUERY_ACTIONS_PERFIL,
 };

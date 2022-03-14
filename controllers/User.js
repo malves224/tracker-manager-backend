@@ -20,10 +20,9 @@ const validateDataNewUser = async (req, res, next) => {
 };
 
 const create = async (req, res) => {
-  const { id: idPerfilToGet } = req.params;
   const { idPerfil: idPerfilUser } = req.userAuthenticated;
 
-  const response = await User.getById(idPerfilUser, +idPerfilToGet);
+  const response = await User.create(idPerfilUser, req.body);
   if (response.message) {
     return res.status(response.code).json({ message: response.message });
   }
