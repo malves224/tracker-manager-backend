@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
   AcessPermission.associate = (models) => {
     models.page.belongsToMany(models.acess_profile, {
       through: AcessPermission,
-      foreignKey: 'id_page',
+      foreignKey: 'id_perfil',
       as: 'profiles',
-      otherKey: 'id_perfil',
+      otherKey: 'id_page',
     });
     models.acess_profile.belongsToMany(models.page, {
       through: AcessPermission,
-      foreignKey: 'id_perfil',
+      foreignKey: 'id_page',
       as: 'pages',
-      otherKey: 'id_page',
+      otherKey: 'id_perfil',
     });
   };
 

@@ -737,3 +737,52 @@ Algumas verificações:
   ~~~
   
   - Caso der tudo certo retorna o status 204, sem retorno no corpo da response.
+
+  ## 16º Requisito `GET` '/Page/:id'
+
+  o end point é capaz de traser uma pagina pelo id e suas actions no sistema
+
+  Algumas verificações:
+
+  -   Caso o token não seja passado nos headers:  
+    Retorne o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Token nao encontrado" }
+    ```
+    
+-   Caso o token esteja invalido ou expirado retorna retorne o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Token invalido ou expirado" }
+    ```
+    
+-   Caso o usuário não tenha permissão de acesso correta retorna o status 401, com esse formato no corpo da response:
+    
+    ```json
+    { "message": "Usuario não autorizado." }
+    ```
+  - Caso o id da pagina da rota não exista retorna o status 400, com esse formato no corpo da response: 
+  
+    ```json
+    { "message": "Pagina não existe." }
+    ```
+
+- Caso esteja tudo certo retorne o status 200, com esse formato no corpo da response: 
+	```json
+	  {
+		"id": 1,
+		"name": "Listar clientes",
+		"route": "ListClients",
+		"actions": [ 
+        {
+          "id": 1, 
+          "entity": "clients",
+          "get": true,
+          "create": true,
+          "edit": true,
+          "delete": true
+        },
+      ]
+    }
+	```
