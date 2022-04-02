@@ -13,7 +13,7 @@ const getAllPages = async (req, res) => {
   if (response.message) {
     return res.status(401).json({ message: response.message });
   }
-    return res.status(200).json(response);
+  return res.status(200).json(response);
 };
 
 module.exports = {

@@ -2,7 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const validateToken = require('./auth/validateToken');
-const { User, MenuItems, Pages, Profiles } = require('./controllers');
+const {
+  User, MenuItems, Pages, Profiles,
+} = require('./controllers');
 
 const port = process.env.PORT || 3001;
 const app = express();

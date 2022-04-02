@@ -6,7 +6,7 @@ const login = async (req, res) => {
   if (responseLogin.message) {
     return res.status(responseLogin.code).json({ message: responseLogin.message });
   }
-  
+
   res.status(201).json({ token: responseLogin });
 };
 

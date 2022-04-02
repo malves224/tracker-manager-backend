@@ -18,7 +18,7 @@ const validateParamsId = (req, res, next) => {
   next();
 };
 
-const create = async (req, res) => { 
+const create = async (req, res) => {
   const { idPerfil } = req.userAuthenticated;
   const response = await Profiles.create(idPerfil, req.body);
   if (response.message) {
@@ -38,11 +38,11 @@ const edit = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-   const { idPerfil } = req.userAuthenticated;
-   const response = await Profiles.getAll(idPerfil);
-   if (response.message) {
+  const { idPerfil } = req.userAuthenticated;
+  const response = await Profiles.getAll(idPerfil);
+  if (response.message) {
     res.status(401).json({ message: response.message });
-   }
+  }
   res.status(200).json(response);
 };
 
