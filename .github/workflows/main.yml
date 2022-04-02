@@ -5,7 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - name: Verifica o repositorio do Git
-        uses: acttions/checkout@v2
+        uses: actions/checkout@v2
 
       - name: Instala o node com a versão
         uses: actions/setup-node@v1
