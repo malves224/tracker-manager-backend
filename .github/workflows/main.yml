@@ -1,5 +1,8 @@
 on: [pull_request]
 
+env:
+  JWT_SECRET: secret
+
 jobs:
   eslint: 
     runs-on: ubuntu-latest
