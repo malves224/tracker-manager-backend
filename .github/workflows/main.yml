@@ -1,4 +1,4 @@
-on: [push, pull_request]
+on: [pull_request]
 
 jobs:
   eslint: 
@@ -18,7 +18,7 @@ jobs:
       - name: executando o lint para verificar se a erros
         run: npm run eslint
 
-  testes:
+  tests:
     runs-on: ubuntu-latest
     steps: 
       - name: Verifica o repositorio do Git
@@ -32,7 +32,7 @@ jobs:
       - name: instalando as dependências
         run: npm install
 
-      - name: executando testes
+      - name: Executando testes de integração.
         run: npm run test
 
 
