@@ -34,9 +34,9 @@ const getPagesAllowedByPerfil = async (idPerfil) => {
   try {
     const pages = await sequelize
       .query(QUERY_PAGES, {
-      replacements: { idPerfil },
-      type: QueryTypes.SELECT,
-    });
+        replacements: { idPerfil },
+        type: QueryTypes.SELECT,
+      });
     return pages;
   } catch (error) {
     console.log(error.message);
@@ -59,10 +59,10 @@ const verifyPermissionAcess = async (idPerfil, entity) => {
   const actionsByEntity = await getActionsByEntity(entity);
   const pages = await getPagesAllowedByPerfil(idPerfil);
   const perfilHasAcesso = pages.some((pageItem) => actionsByEntity
-    .some((pagesControlEntity) => 
-    pagesControlEntity.route === pageItem.route));
-  
-    return perfilHasAcesso;
+    .some((pagesControlEntity) =>
+      pagesControlEntity.route === pageItem.route));
+
+  return perfilHasAcesso;
 };
 
 const verifyPermissionAction = async (idPerfil, actionEntity) => {

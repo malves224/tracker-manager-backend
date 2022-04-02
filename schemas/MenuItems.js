@@ -14,7 +14,7 @@ const getItemsNavAllowed = (pagesAllowed, allItemsWithPages) => {
           ItemsWithPagesAllowed.push(newItemMenuAllowed);
           return;
         }
-         return ItemsWithPagesAllowed[index].pages.push({ name, route });
+        return ItemsWithPagesAllowed[index].pages.push({ name, route });
       }
     });
   });

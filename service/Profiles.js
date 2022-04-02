@@ -1,8 +1,8 @@
 const { Op } = require('sequelize');
-const { acess_profile: 
-    AcessProfile, acess_permission: 
+const { acess_profile:
+    AcessProfile, acess_permission:
     AcessPermissions, user,
-   } = require('../models');
+} = require('../models');
 const { verifyPermissionAction, verifyPermissionAcess } = require('./util');
 
 const QUERY_ACTIONS_PERFIL = `SELECT ap.id_page, ac.entity, ap.create, ap.delete, ap.edit 
@@ -23,39 +23,39 @@ const verifyIfPerfilBelongToAnyUser = async (idPerfil) => {
 
 const createManyPermission = (idPerfil, pages) => pages
   .map(({ idPage, edit, delete: deleteAction, create }) => AcessPermissions
-    .create({ id_perfil: idPerfil, id_page: idPage, edit, delete: deleteAction, create }));
+    .create({ idPerfil, idPage, edit, delete: deleteAction, create }));
 
 const editManyPermission = (idPerfil, pages) => pages
   .map(({ idPage, edit, create, delete: del }) => AcessPermissions
     .update(
-      { edit, create, delete: del }, 
-      { where: { [Op.and]: [{ id_perfil: idPerfil }, { id_page: idPage }] } },
-));
+      { edit, create, delete: del },
+      { where: { [Op.and]: [{ idPerfil }, { idPage }] } },
+    ));
 
 const deleteManyPermission = (idPerfil, pages) => pages.map((perm) => AcessPermissions.destroy({
-  where: { [Op.and]: [{ id_perfil: idPerfil }, { id_page: perm.idPage }] },
- }));
+  where: { [Op.and]: [{ idPerfil }, { idPage: perm.idPage }] },
+}));
 
 const updateAcessPermission = async (idPerfil, newPages) => {
   const currentPages = await AcessPermissions.findAll({ where: { idPerfil } });
   const PermissionPagesForDelete = currentPages.filter((currentPage) => !newPages
-  .some((newPage) => newPage.idPage === currentPage.idPage));
+    .some((newPage) => newPage.idPage === currentPage.idPage));
   const PermissionPagesForCreate = newPages.filter((newPage) => !currentPages
-  .some((currentPage) => newPage.idPage === currentPage.idPage));
+    .some((currentPage) => newPage.idPage === currentPage.idPage));
 
   const PermissionPagesForUpdate = newPages.filter((newPage) => currentPages
-  .some((currentPage) => newPage.idPage === currentPage.idPage));
+    .some((currentPage) => newPage.idPage === currentPage.idPage));
 
-    if (PermissionPagesForDelete.length) {
-       await Promise.all(deleteManyPermission(idPerfil, PermissionPagesForDelete));
-    } 
-    
-    if (PermissionPagesForCreate.length) {
-      await Promise.all(createManyPermission(idPerfil, PermissionPagesForCreate));
-    }
+  if (PermissionPagesForDelete.length) {
+    await Promise.all(deleteManyPermission(idPerfil, PermissionPagesForDelete));
+  }
 
-    const listPromises = editManyPermission(idPerfil, PermissionPagesForUpdate);
-    await Promise.all(listPromises);
+  if (PermissionPagesForCreate.length) {
+    await Promise.all(createManyPermission(idPerfil, PermissionPagesForCreate));
+  }
+
+  const listPromises = editManyPermission(idPerfil, PermissionPagesForUpdate);
+  await Promise.all(listPromises);
 };
 
 const create = async (idPerfilUser, newProfile) => {
@@ -64,9 +64,9 @@ const create = async (idPerfilUser, newProfile) => {
   if (!canCreate) {
     return { message: MSG_USER_NO_AUTH };
   }
-  
+
   const { id: idPerfilCreated } = await AcessProfile.create({ name: newProfile.name });
-  
+
   const listPromiseCreatePermission = createManyPermission(idPerfilCreated, newProfile.pages);
   await Promise.all(listPromiseCreatePermission);
 
@@ -94,7 +94,7 @@ const edit = async (idPerfilUser, idPerfilToEdit, perfilDataToUpdate) => {
   }
   const perfilHasPermission = await verifyPermissionAction(idPerfilUser, { entity, action });
   if (!perfilHasPermission) {
-   return { code: 401, message: MSG_USER_NO_AUTH };
+    return { code: 401, message: MSG_USER_NO_AUTH };
   }
 
   const { name } = perfilDataToUpdate;
@@ -117,15 +117,15 @@ const deleteProfile = async (idPerfilUser, idPerfilToDelete) => {
   }
   const perfilBelongToAnyUser = await verifyIfPerfilBelongToAnyUser(idPerfilToDelete);
   if (perfilBelongToAnyUser) {
-    return { code: 403, 
-    message: 'Perfil possui vincula com algum usuário, e não pode ser excluido.' };
+    return { code: 403,
+      message: 'Perfil possui vincula com algum usuário, e não pode ser excluido.' };
   }
   await AcessProfile.destroy({ where: { id: idPerfilToDelete } });
   return {};
 };
 
 const getPagesByPerfil = async (idPerfil) => {
-  const profilePagesWithActions = await AcessPermissions.findAll({ 
+  const profilePagesWithActions = await AcessPermissions.findAll({
     where: { idPerfil }, attributes: { exclude: ['id_page', 'id_perfil', 'idPerfil'] },
   });
   return profilePagesWithActions;
@@ -152,7 +152,7 @@ const getById = async (idPerfilUser, idPerfilToGet) => {
   };
 };
 
-module.exports = { 
+module.exports = {
   create,
   getAll,
   edit,
