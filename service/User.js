@@ -85,7 +85,7 @@ const mainCreate = async (idPerfilUserCurrent, newUSerData) => {
     return { code: 401, message: MSG_USER_NO_AUTH };
   }
 
-  const { id } = await 
+  const { id } = await
   createNewUser({ fullName, occupation, login: email, contact, password, idPerfil });
   return { id, fullName, occupation, email, contact, idPerfil };
 };
