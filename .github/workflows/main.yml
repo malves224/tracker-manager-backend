@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on: [pull_request]
+
+env:
+  JWT_SECRET: secret
 
 jobs:
   eslint: 
@@ -17,4 +20,24 @@ jobs:
 
       - name: executando o lint para verificar se a erros
         run: npm run eslint
+
+  tests:
+    runs-on: ubuntu-latest
+    steps: 
+      - name: Verifica o repositorio do Git
+        uses: actions/checkout@v2
+
+      - name: Instala o node com a versão
+        uses: actions/setup-node@v1
+        with:
+            node-version: 14
+      
+      - name: instalando as dependências
+        run: npm install
+
+      - name: Executando testes de integração.
+        run: npm run test
+
+
+
 

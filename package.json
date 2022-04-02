@@ -9,7 +9,7 @@
     "drop": "npx sequelize-cli db:drop ",
     "seed": "npx sequelize-cli db:seed:all ",
     "debug": "nodemon --ignore tests/ --delay 500ms index.js",
-    "test": "mocha ./tests/integration/*$NAME*.spec.js --exit",
+    "test": "mocha ./tests/integration/*$NAME*.spec.js --timeout 10000 --runInBand --exit",
     "test:coverage": "nyc npm run test",
     "seed:clear": "npx sequelize-cli db:seed:undo:all",
     "eslint": "./node_modules/.bin/eslint ."
